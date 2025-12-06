@@ -1,801 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>IzenBlox</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    :root {
-      --bg: #050816;
-      --bg-alt: #0b1020;
-      --primary: #4f46e5;
-      --primary-soft: rgba(79, 70, 229, 0.2);
-      --accent: #22d3ee;
-      --text: #f9fafb;
-      --muted: #9ca3af;
-      --danger: #f97373;
-      --success: #22c55e;
-      --card-radius: 18px;
-      --transition-fast: 0.25s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
-      color: var(--text);
-      min-height: 100vh;
-      scroll-behavior: smooth;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* NAVBAR */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(3, 7, 18, 0.9);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-    }
-
-    .nav {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0.6rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .logo-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: conic-gradient(from 150deg, #22d3ee, #4f46e5, #22c55e, #22d3ee);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 20px rgba(79, 70, 229, 0.7);
-      font-weight: 800;
-      font-size: 1rem;
-    }
-
-    .logo-text {
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1.2rem;
-      font-size: 0.95rem;
-    }
-
-    nav a {
-      position: relative;
-      color: var(--muted);
-      padding-bottom: 0.15rem;
-      transition: color var(--transition-fast);
-    }
-
-    nav a::after {
-      content: "";
-      position: absolute;
-      inset-inline: 0;
-      bottom: -0.15rem;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent), var(--primary));
-      transform-origin: center;
-      transform: scaleX(0);
-      transition: transform var(--transition-fast);
-    }
-
-    nav a:hover {
-      color: var(--text);
-    }
-
-    nav a:hover::after {
-      transform: scaleX(1);
-    }
-
-    /* LAYOUT */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1.5rem;
-    }
-
-    section {
-      padding: 4rem 0;
-      scroll-margin-top: 72px;
-    }
-
-    .section-title {
-      font-size: 1.9rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .section-pill {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent);
-      background: rgba(15, 23, 42, 0.8);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      margin-bottom: 0.5rem;
-    }
-
-    .section-subtitle {
-      color: var(--muted);
-      max-width: 620px;
-      font-size: 0.95rem;
-    }
-
-    /* HERO / NEWS FEED */
-    .hero-grid {
-      margin-top: 2.5rem;
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.7fr);
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .hero-main-card {
-      border-radius: 24px;
-      padding: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.35), transparent 60%),
-                  radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.25), transparent 55%),
-                  rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 24px 50px rgba(15, 23, 42, 0.8);
-      transform: translateY(12px);
-      opacity: 0;
-      animation: float-in 0.7s ease-out forwards;
-    }
-
-    @keyframes float-in {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .hero-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero-tagline {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .badge {
-      font-size: 0.7rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.32rem;
-    }
-
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .btn {
-      border-radius: 999px;
-      padding: 0.55rem 1.2rem;
-      border: 1px solid transparent;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
-      background: transparent;
-      color: var(--text);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--primary));
-      box-shadow: 0 15px 35px rgba(79, 70, 229, 0.7);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px) scale(1.02);
-      box-shadow: 0 18px 40px rgba(79, 70, 229, 0.9);
-    }
-
-    .btn-ghost {
-      border-color: rgba(148, 163, 184, 0.4);
-      background: rgba(15, 23, 42, 0.7);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(15, 23, 42, 1);
-      transform: translateY(-1px);
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 0.75rem;
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .hero-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .hero-side {
-      position: relative;
-      transform: translateY(26px);
-      opacity: 0;
-      animation: float-in-side 0.85s ease-out forwards 0.15s;
-    }
-
-    @keyframes float-in-side {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .discord-preview {
-      border-radius: 20px;
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.95));
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      padding: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .discord-status {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.8rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .discord-avatar-row {
-      display: flex;
-      gap: 0.7rem;
-      align-items: center;
-      margin-bottom: 0.8rem;
-    }
-
-    .avatar-stack {
-      display: flex;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      border: 2px solid #020617;
-      background: radial-gradient(circle at 30% 0, #fff, #9ca3af);
-      margin-left: -0.4rem;
-      box-shadow: 0 0 12px rgba(15, 23, 42, 0.9);
-    }
-
-    .avatar:first-child {
-      margin-left: 0;
-    }
-
-    .discord-small-tag {
-      font-size: 0.7rem;
-      color: var(--accent);
-    }
-
-    .discord-channels {
-      font-size: 0.78rem;
-      color: var(--muted);
-      display: grid;
-      gap: 0.3rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .discord-channel-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      white-space: nowrap;
-    }
-
-    .discord-mobile-banner {
-      margin-top: 1rem;
-      border-radius: 16px;
-      padding: 0.8rem;
-      background: linear-gradient(135deg, var(--primary-soft), rgba(34, 211, 238, 0.2));
-      font-size: 0.75rem;
-      color: var(--text);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-      animation: pulse 1.4s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      70% {
-        transform: scale(1.7);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0;
-      }
-    }
-
-    /* GAMES SECTION */
-    .games-grid {
-      margin-top: 2.3rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.4rem;
-    }
-
-    .game-card {
-      position: relative;
-      border-radius: var(--card-radius);
-      overflow: hidden;
-      background: radial-gradient(circle at top, rgba(34, 211, 238, 0.15), transparent 60%),
-                  rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      transform: translateY(10px);
-      opacity: 0;
-      animation: card-pop 0.4s ease-out forwards;
-    }
-
-    .game-card:nth-child(2) { animation-delay: 0.1s; }
-    .game-card:nth-child(3) { animation-delay: 0.2s; }
-    .game-card:nth-child(4) { animation-delay: 0.3s; }
-    .game-card:nth-child(5) { animation-delay: 0.4s; }
-
-    @keyframes card-pop {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .game-pill {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent);
-    }
-
-    .game-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .game-meta {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .game-actions {
-      margin-top: 0.7rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .game-tag {
-      font-size: 0.7rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--muted);
-    }
-
-    .game-play-btn {
-      font-size: 0.8rem;
-      border-radius: 999px;
-      padding: 0.35rem 0.85rem;
-      border: 1px solid rgba(129, 140, 248, 0.9);
-      background: radial-gradient(circle at top, rgba(79, 70, 229, 0.6), rgba(17, 24, 39, 0.95));
-      color: var(--text);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      cursor: pointer;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    }
-
-    .game-play-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 30px rgba(79, 70, 229, 0.7);
-    }
-
-    /* ABOUT SECTION */
-    .about-grid {
-      margin-top: 2.3rem;
-      display: grid;
-      grid-template-columns: minmax(0, 3.3fr) minmax(0, 2.5fr);
-      gap: 2rem;
-    }
-
-    .about-text {
-      font-size: 0.95rem;
-      color: var(--muted);
-      display: grid;
-      gap: 0.8rem;
-    }
-
-    .about-pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-top: 0.3rem;
-    }
-
-    .about-pill {
-      font-size: 0.75rem;
-      padding: 0.28rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .about-card {
-      border-radius: var(--card-radius);
-      padding: 1.1rem;
-      background: radial-gradient(circle at top, rgba(79, 70, 229, 0.35), transparent 60%),
-                  rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      display: grid;
-      gap: 0.7rem;
-      font-size: 0.9rem;
-    }
-
-    .about-card h3 {
-      font-size: 1rem;
-    }
-
-    .about-list {
-      list-style: none;
-      display: grid;
-      gap: 0.35rem;
-    }
-
-    .about-list li::before {
-      content: "•";
-      color: var(--accent);
-      margin-right: 0.4rem;
-    }
-
-    /* SUPPORT SECTION */
-    .support-grid {
-      margin-top: 2.3rem;
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
-      gap: 2rem;
-      align-items: flex-start;
-    }
-
-    .support-card {
-      border-radius: var(--card-radius);
-      padding: 1.1rem;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow: 0 24px 40px rgba(15, 23, 42, 0.8);
-    }
-
-    .support-card h3 {
-      font-size: 1.05rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .support-card p {
-      font-size: 0.86rem;
-      color: var(--muted);
-      margin-bottom: 0.7rem;
-    }
-
-    .field {
-      margin-bottom: 0.75rem;
-    }
-
-    .field label {
-      display: block;
-      font-size: 0.8rem;
-      margin-bottom: 0.25rem;
-      color: var(--muted);
-    }
-
-    .field input,
-    .field textarea {
-      width: 100%;
-      padding: 0.5rem 0.6rem;
-      border-radius: 10px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--text);
-      font-size: 0.85rem;
-      outline: none;
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
-    }
-
-    .field input:focus,
-    .field textarea:focus {
-      border-color: rgba(129, 140, 248, 0.9);
-      box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.7);
-      transform: translateY(-1px);
-    }
-
-    .field textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .support-status {
-      font-size: 0.8rem;
-      margin-top: 0.4rem;
-      min-height: 1.1rem;
-    }
-
-    .support-status.success {
-      color: var(--success);
-    }
-
-    .support-status.error {
-      color: var(--danger);
-    }
-
-    .admin-login {
-      margin-bottom: 0.8rem;
-      padding-bottom: 0.7rem;
-      border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
-    }
-
-    .admin-login small {
-      display: block;
-      margin-top: 0.25rem;
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
-
-    .tickets-table {
-      margin-top: 0.4rem;
-      max-height: 260px;
-      overflow: auto;
-      border-radius: 12px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-    }
-
-    th,
-    td {
-      padding: 0.4rem 0.5rem;
-      text-align: left;
-      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      background: rgba(15, 23, 42, 0.98);
-      z-index: 1;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    .status-pill {
-      font-size: 0.7rem;
-      padding: 0.15rem 0.55rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-    }
-
-    .status-pending {
-      color: #facc15;
-      border-color: rgba(250, 204, 21, 0.6);
-      background: rgba(23, 23, 23, 0.7);
-    }
-
-    .status-open {
-      color: var(--accent);
-      border-color: rgba(34, 211, 238, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .status-closed {
-      color: var(--muted);
-      background: rgba(15, 23, 42, 0.95);
-    }
-
-    .ticket-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-    }
-
-    .ticket-btn {
-      font-size: 0.68rem;
-      border-radius: 999px;
-      padding: 0.18rem 0.55rem;
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      background: rgba(17, 24, 39, 0.95);
-      cursor: pointer;
-      color: var(--muted);
-      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-    }
-
-    .ticket-btn:hover {
-      background: rgba(30, 64, 175, 0.9);
-      border-color: rgba(129, 140, 248, 0.9);
-      color: #e5e7eb;
-      transform: translateY(-0.5px);
-    }
-
-    .ticket-btn.danger:hover {
-      background: rgba(185, 28, 28, 0.9);
-      border-color: rgba(248, 113, 113, 0.9);
-    }
-
-    .ticket-meta {
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
-
-    footer {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 3rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      border-top: 1px solid rgba(30, 64, 175, 0.7);
-      margin-top: 1rem;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .hero-grid,
-      .about-grid,
-      .support-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .hero-side {
-        order: -1;
-      }
-
-      header {
-        position: static;
-      }
-
-      section {
-        scroll-margin-top: 0;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .nav {
-        flex-direction: column;
-        gap: 0.6rem;
-      }
-
-      nav ul {
-        font-size: 0.85rem;
-      }
-
-      main {
-        padding-inline: 1rem;
-      }
-
-      .hero-main-card,
-      .discord-preview,
-      .support-card,
-      .about-card {
-        border-radius: 16px;
-      }
-
-      footer {
-        flex-direction: column;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>IzenBlox</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+/* =========================================
+   GLOBAL THEME + VARIABLES
+   ========================================= */
+:root {
+  --bg: #050816;
+  --bg-alt: #0b1020;
+  --primary: #4f46e5;
+  --primary-soft: rgba(79,70,229,0.3);
+  --accent: #22d3ee;
+  --text: #f9fafb;
+  --muted: #9ca3af;
+
+  /* OWNER GOLD */
+  --owner-gold-1: #f6e48a;
+  --owner-gold-2: #e5c14a;
+  --owner-glow: rgba(255,221,100,0.65);
+
+  /* Decoration Glow */
+  --purple-glow: rgba(175,100,255,0.75);
+
+  --card-radius: 18px;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #111827 0%, #020617 50%, #000 100%);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* LINKS */
+a { color: inherit; text-decoration: none; }
+
+/* =========================================
+   NAVIGATION BAR
+   ========================================= */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(16px);
+  background: rgba(0,0,0,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  padding: 0.8rem 1.4rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: conic-gradient(from 180deg, var(--accent), var(--primary), var(--accent));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  color: black;
+  font-size: 0.9rem;
+}
+
+.logo-text {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+nav ul {
+  display: flex;
+  gap: 1.3rem;
+  list-style: none;
+}
+
+nav a {
+  color: var(--muted);
+  font-size: 0.92rem;
+  position: relative;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+/* =========================================
+   OWNER PROFILE COSMETICS (GOLD + BLOCK BORDER)
+   ========================================= */
+
+.owner-name {
+  background: linear-gradient(90deg, var(--owner-gold-1), var(--owner-gold-2));
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  text-shadow: 0 0 8px var(--owner-glow), 0 0 20px var(--owner-glow);
+}
+
+.owner-frame {
+  border: 4px solid var(--owner-gold-2);
+  border-radius: 14px;
+  padding: 6px;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 0 12px var(--owner-glow), inset 0 0 12px var(--owner-glow);
+}
+
+/* =========================================
+   AVATAR DECORATIONS
+   ========================================= */
+
+.avatar-decoration {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-decoration img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+}
+
+.purple-glow {
+  box-shadow: 0 0 18px 8px var(--purple-glow);
+  border: 2px solid rgba(175,100,255,0.5);
+  border-radius: 999px;
+}
+
+/* =========================================
+   SECTIONS (General Layout)
+   ========================================= */
+section {
+  max-width: 1200px;
+  margin: auto;
+  padding: 3.5rem 1.4rem;
+}
+
+.section-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--muted);
+  max-width: 700px;
+  font-size: 0.95rem;
+}
+
+/* =========================================
+   COMMUNITY FEED (container only, JS builds)
+   ========================================= */
+
+#communityFeed {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.post-card {
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: 14px;
+}
+
+/* =========================================
+   SHOP SYSTEM
+   ========================================= */
+
+.shop-grid {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.shop-card {
+  padding: 1.2rem;
+  background: rgba(0,0,0,0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* MODAL BASE */
+.modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal {
+  background: #0b0f1d;
+  padding: 1.7rem;
+  border-radius: 18px;
+  max-width: 420px;
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+</style>
+
 </head>
 <body>
   <!-- NAVBAR -->
@@ -810,436 +266,524 @@
           <li><a href="#home">News Feed</a></li>
           <li><a href="#games">Games</a></li>
           <li><a href="#about">More Info</a></li>
+          <li><a href="#community">Community</a></li>
+          <li><a href="#shop">Shop</a></li>
           <li><a href="#support">Support</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main>
-    <!-- NEWS FEED / HERO -->
-    <section id="home">
-      <div class="section-pill">
-        <span>●</span>
-        IzenBlox News Feed
+  <!-- =========================================
+       HERO / NEWS FEED
+       ========================================= -->
+  <section id="home">
+    <h2 class="section-title">Upcoming Discord Hub for Roblox & RNG Fans</h2>
+    <p class="section-subtitle">
+      Stay up to date with everything IzenBlox – RNG, horror, story games and community events,
+      all connected through this site, future Discord servers and my Roblox experiences.
+    </p>
+    <div style="display:grid;grid-template-columns:minmax(0,2.2fr)minmax(0,1.8fr);gap:1.5rem;margin-top:2rem;">
+      <div class="owner-frame">
+        <h3 class="owner-name">Izen Himself • Creator</h3>
+        <p style="color:var(--muted);font-size:0.9rem;margin-top:0.4rem;">
+          This is the central hub for all my projects. News, patch notes, leaks, devlogs and future
+          Discord events will all live here so you don’t miss anything.
+        </p>
+        <ul style="margin-top:0.7rem;font-size:0.88rem;color:var(--muted);padding-left:1.1rem;">
+          <li>Live updates for AREA-61, Izen’s RNG, Piggy: Lost Memories and Fractured Hotel</li>
+          <li>Future Discord hub with channels for news, feedback, memes and testing</li>
+          <li>Support tickets, shop & community posts directly on this site</li>
+        </ul>
       </div>
-      <h2 class="section-title">
-        Upcoming Discord Hub for Roblox & RNG Fans
-      </h2>
-      <p class="section-subtitle">
-        Stay up to date with the latest from IzenBlox – news, leaks, patch notes, sneak peeks, and community events
-        for all of my Roblox projects in one place.
+
+      <div style="background:rgba(0,0,0,0.5);border-radius:18px;border:1px solid rgba(255,255,255,0.12);padding:1rem;">
+        <h4 style="font-size:1rem;margin-bottom:0.6rem;">Discord server status</h4>
+        <p style="font-size:0.9rem;color:var(--muted);">
+          <strong>discord.gg/izenblox</strong> – planned, not public yet.<br>
+          I’m building channels, permissions, bots, events and integration with this website.
+        </p>
+        <p style="font-size:0.85rem;color:var(--muted);margin-top:0.7rem;">
+          Want to be ready? Create a profile in the <strong>Community</strong> tab and claim
+          a free purple avatar glow in the <strong>Shop</strong> as a “sorry this isn’t fully automatic yet”
+          bonus.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================
+       GAMES
+       ========================================= -->
+  <section id="games">
+    <h2 class="section-title">Games</h2>
+    <p class="section-subtitle">
+      All current IzenBlox experiences in one place. These links go straight to Roblox.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;margin-top:2rem;">
+      <article class="shop-card">
+        <h3>AREA-61</h3>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
+          Restricted sci-fi facility horror. Explore, survive and uncover what went wrong.
+        </p>
+        <a class="btn" href="https://www.roblox.com/games/87266240086991/AREA-61" target="_blank" rel="noopener">
+          Play on Roblox
+        </a>
+      </article>
+
+      <article class="shop-card">
+        <h3>Izen’s RNG</h3>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
+          Roll for insane luck, flex your auras and titles and race friends for the rarest pulls.
+        </p>
+        <a class="btn" href="https://www.roblox.com/games/115438193421984/Izens-RNG" target="_blank" rel="noopener">
+          Play on Roblox
+        </a>
+      </article>
+
+      <article class="shop-card">
+        <h3>Piggy: Lost Memories</h3>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
+          A fresh take inspired by Piggy with new story, puzzles and secrets.
+        </p>
+        <a class="btn" href="https://www.roblox.com/games/18151143347/Piggy-Lost-Memories" target="_blank" rel="noopener">
+          Play on Roblox
+        </a>
+      </article>
+
+      <article class="shop-card">
+        <h3>Fractured Hotel</h3>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
+          A hotel that doesn’t want guests to leave. Entities, glitches, and eerie atmosphere.
+        </p>
+        <a class="btn" href="https://www.roblox.com/games/17843106302/Fractured-Hotel" target="_blank" rel="noopener">
+          Play on Roblox
+        </a>
+      </article>
+
+      <article class="shop-card">
+        <h3>CharlesXRAs Place #40</h3>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
+          Personal dev sandbox where ideas are tested before they become full experiences.
+        </p>
+        <a class="btn" href="https://www.roblox.com/games/15169868230/CharlesXRAs-Place-Number-40" target="_blank" rel="noopener">
+          Play on Roblox
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================================
+       MORE INFORMATION
+       ========================================= -->
+  <section id="about">
+    <h2 class="section-title">What is IzenBlox?</h2>
+    <p class="section-subtitle">
+      IzenBlox is the ecosystem connecting my Roblox games, this website, future Discord servers
+      and community systems like support tickets, posts, and cosmetic unlocks.
+    </p>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1.2fr)minmax(0,1.2fr);gap:1.6rem;margin-top:2rem;">
+      <div>
+        <p style="font-size:0.92rem;color:var(--muted);margin-bottom:0.7rem;">
+          Instead of having everything scattered across random links, IzenBlox pulls it together:
+          games, updates, community, support and shop tools built around the same universe.
+        </p>
+        <p style="font-size:0.92rem;color:var(--muted);margin-bottom:0.7rem;">
+          The future Discord server will mirror this structure – channels for news, RNG flexes,
+          horror theories, memes and bug reports that link back into systems on this site.
+        </p>
+      </div>
+
+      <div class="shop-card">
+        <h3>How it all connects</h3>
+        <ul style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);padding-left:1.1rem;">
+          <li><strong>Website:</strong> Central hub, community, shop and tickets</li>
+          <li><strong>Discord:</strong> Live chat, events, pings and staff contact</li>
+          <li><strong>Roblox:</strong> Where the RNG, horror and story gameplay happens</li>
+          <li><strong>Cosmetics:</strong> Avatars and decorations shared across systems</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- =========================================
+       COMMUNITY SYSTEM
+       ========================================= -->
+  <section id="community">
+    <h2 class="section-title">Community</h2>
+    <p class="section-subtitle">
+      Sign in, customize your profile, post updates, share memes, upload images, and join
+      the IzenBlox community. Everything here is demo-based and stored locally (no real online login).
+    </p>
+
+    <!-- CONNECT GOOGLE DEMO -->
+    <div id="communityAuth" style="margin-top:2rem;">
+      <button id="connectGoogleBtn" class="btn" style="background:#db4437;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" 
+             style="width:18px;height:18px;border-radius:4px;">
+        Connect Google Account (Demo)
+      </button>
+
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:0.4rem;">
+        This is a simulated login for GitHub Pages. No real Google account is accessed.
       </p>
+    </div>
 
-      <div class="hero-grid">
-        <article class="hero-main-card">
-          <h1 class="hero-title">The official IzenBlox Discord is coming soon.</h1>
-          <p class="hero-tagline">
-            Chat about updates, drop your feedback, join events and giveaways, and be the first to know about new
-            features across AREA-61, Izen’s RNG, Piggy: Lost Memories, Fractured Hotel, and more.
-          </p>
+    <!-- PROFILE SETUP FORM -->
+    <div id="profileSetup" style="display:none;margin-top:2rem;padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);">
+      <h3 style="margin-bottom:1rem;">Set Up Your Profile</h3>
 
-          <div class="hero-badges">
-            <div class="badge">
-              <span class="badge-dot"></span>
-              Live patch notes
-            </div>
-            <div class="badge">
-              🎁 Giveaways & events
-            </div>
-            <div class="badge">
-              ⚙️ Devlogs & sneak peeks
-            </div>
-            <div class="badge">
-              💬 Community feedback
-            </div>
-          </div>
+      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
 
-          <div class="hero-buttons">
-            <button class="btn btn-primary" type="button">
-              <span>Join waitlist</span>
-              <span>→</span>
-            </button>
-            <button class="btn btn-ghost" type="button" onclick="document.getElementById('support').scrollIntoView({behavior:'smooth'})">
-              Get support
-            </button>
-          </div>
+        <div>
+          <label>Username</label>
+          <input id="profUsername" type="text" placeholder="Your name"
+                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
+        </div>
 
-          <div class="hero-meta">
-            <span>
-              <span class="pulse-dot"></span>
-              Launch status: In development
-            </span>
-            <span>Channels planned: #news, #updates, #rng-chat, #bug-reports, #off-topic</span>
-          </div>
-        </article>
+        <div>
+          <label>Pronouns</label>
+          <input id="profPronouns" type="text" placeholder="he/him, she/her, they/them"
+                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
+        </div>
 
-        <aside class="hero-side">
-          <div class="discord-preview">
-            <div class="discord-status">
-              <span>discord.gg/izenblox <span style="color:#4ade80;">(coming soon)</span></span>
-              <span>🛠️ Setting up server</span>
-            </div>
+        <div>
+          <label>Avatar Image URL</label>
+          <input id="profAvatar" type="text" placeholder="https://example.com/avatar.png"
+                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
+        </div>
 
-            <div class="discord-avatar-row">
-              <div class="avatar-stack">
-                <div class="avatar"></div>
-                <div class="avatar"></div>
-                <div class="avatar"></div>
-              </div>
-              <div>
-                <div class="discord-small-tag">Future members</div>
-                <div style="font-size:0.8rem;color:var(--muted);">RNG grinders • horror fans • testers</div>
-              </div>
-            </div>
+        <div>
+          <label>Bio</label>
+          <textarea id="profBio" placeholder="Tell people about yourself"
+                    style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:80px;"></textarea>
+        </div>
 
-            <div class="discord-channels">
-              <div class="discord-channel-pill">#📢-announcements</div>
-              <div class="discord-channel-pill">#🧪-beta-updates</div>
-              <div class="discord-channel-pill">#🎲-izens-rng</div>
-              <div class="discord-channel-pill">#👻-horror-games</div>
-              <div class="discord-channel-pill">#🐞-bug-reports</div>
-            </div>
-
-            <div class="discord-mobile-banner">
-              <div>
-                <strong>Mobile-friendly news.</strong><br />
-                Instant pings when I drop updates or new games.
-              </div>
-              <div class="pulse-dot"></div>
-            </div>
-          </div>
-        </aside>
       </div>
-    </section>
 
-    <!-- GAMES SECTION -->
-    <section id="games">
-      <div class="section-pill">
-        <span>🎮</span>
-        Games
+      <!-- INTERESTS -->
+      <div style="margin-top:1.5rem;">
+        <h4 style="margin-bottom:0.5rem;">Your Interests</h4>
+        <textarea id="profInterests" placeholder="RNG, Horror, Story games, Development..."
+                  style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:70px;"></textarea>
       </div>
-      <h2 class="section-title">Dive into the IzenBlox universe</h2>
-      <p class="section-subtitle">
-        All my currently released experiences in one place. Click a game to play it on Roblox – more updates and
-        new projects will be announced through the Discord and this site.
-      </p>
 
-      <div class="games-grid">
-        <article class="game-card">
-          <div class="game-pill">Sci-Fi Facility • Horror</div>
-          <h3 class="game-title">AREA-61</h3>
-          <p class="game-meta">
-            Explore a restricted research facility, uncover dark experiments, and try to make it out alive.
-          </p>
-          <div class="game-actions">
-            <span class="game-tag">Exploration / Horror</span>
-            <a class="game-play-btn" href="https://www.roblox.com/games/87266240086991/AREA-61" target="_blank" rel="noopener">
-              Play on Roblox →
-            </a>
-          </div>
-        </article>
-
-        <article class="game-card">
-          <div class="game-pill">RNG • Luck Based</div>
-          <h3 class="game-title">Izen’s RNG</h3>
-          <p class="game-meta">
-            Roll for crazy rarities, flex your luck with auras and titles, and race your friends to insane drops.
-          </p>
-          <div class="game-actions">
-            <span class="game-tag">RNG / Grinding</span>
-            <a class="game-play-btn" href="https://www.roblox.com/games/115438193421984/Izens-RNG" target="_blank" rel="noopener">
-              Play on Roblox →
-            </a>
-          </div>
-        </article>
-
-        <article class="game-card">
-          <div class="game-pill">Piggy Universe</div>
-          <h3 class="game-title">Piggy: Lost Memories</h3>
-          <p class="game-meta">
-            A new story inspired by Piggy with original twists, secrets, and puzzles to solve.
-          </p>
-          <div class="game-actions">
-            <span class="game-tag">Story / Mystery</span>
-            <a class="game-play-btn" href="https://www.roblox.com/games/18151143347/Piggy-Lost-Memories" target="_blank" rel="noopener">
-              Play on Roblox →
-            </a>
-          </div>
-        </article>
-
-        <article class="game-card">
-          <div class="game-pill">Hotel • Horror</div>
-          <h3 class="game-title">Fractured Hotel</h3>
-          <p class="game-meta">
-            Check in to a hotel that doesn’t want you to leave. Glitches, entities and secrets behind every door.
-          </p>
-          <div class="game-actions">
-            <span class="game-tag">Horror / Atmosphere</span>
-            <a class="game-play-btn" href="https://www.roblox.com/games/17843106302/Fractured-Hotel" target="_blank" rel="noopener">
-              Play on Roblox →
-            </a>
-          </div>
-        </article>
-
-        <article class="game-card">
-          <div class="game-pill">Sandbox • Dev</div>
-          <h3 class="game-title">CharlesXRAs Place #40</h3>
-          <p class="game-meta">
-            A personal dev space where ideas are tested, features are prototyped, and future content is born.
-          </p>
-          <div class="game-actions">
-            <span class="game-tag">Experiments</span>
-            <a class="game-play-btn" href="https://www.roblox.com/games/15169868230/CharlesXRAs-Place-Number-40" target="_blank" rel="noopener">
-              Play on Roblox →
-            </a>
-          </div>
-        </article>
+      <!-- FAVORITE GAMES -->
+      <div style="margin-top:1.5rem;">
+        <h4 style="margin-bottom:0.5rem;">Your Favourite IzenBlox Games</h4>
+        <textarea id="profGames" placeholder="Izen's RNG, AREA-61, Fractured Hotel..."
+                  style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:70px;"></textarea>
       </div>
-    </section>
 
-    <!-- MORE INFORMATION -->
-    <section id="about">
-      <div class="section-pill">
-        <span>ℹ️</span>
-        More Information
+      <!-- DECORATIONS -->
+      <div style="margin-top:1.5rem;">
+        <h4 style="margin-bottom:0.6rem;">Avatar Decoration</h4>
+
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+
+          <!-- Purple Glow -->
+          <div class="avatar-decoration purple-glow" style="cursor:pointer;" data-deco="purple-glow">
+            <img src="https://i.imgur.com/6VBx3io.png" alt="Decoration Preview">
+          </div>
+
+          <!-- Owner Exclusive (locked for normal users) -->
+          <div class="avatar-decoration" style="cursor:not-allowed;opacity:0.3;">
+            <img src="https://i.imgur.com/6VBx3io.png" alt="Owner Deco">
+            <div style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.3rem;">
+              Owner Only
+            </div>
+          </div>
+
+        </div>
       </div>
-      <h2 class="section-title">What is IzenBlox?</h2>
-      <p class="section-subtitle">
-        IzenBlox is the central home for my Roblox projects, community updates, and support. Think of this as the
-        control panel for everything I’m building.
-      </p>
 
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            The goal of this website is to make it easy for players to track updates across all my games, find links
-            quickly, and join the Discord when it launches. No more chasing random links – everything you need will
-            live here.
-          </p>
-          <p>
-            The upcoming Discord server ties directly into this site: every big update, patch, and event will be
-            announced in both places, so you never miss anything important.
-          </p>
+      <!-- SAVE PROFILE -->
+      <button id="saveProfileBtn" class="btn" style="margin-top:1.5rem;">
+        Save Profile
+      </button>
+    </div>
+
+    <!-- PROFILE DISPLAY -->
+    <div id="profileDisplay" style="display:none;margin-top:2.5rem;padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);">
+      <h3 style="margin-bottom:1rem;">Your Profile</h3>
+
+      <div id="profileCard" style="display:flex;gap:1rem;align-items:center;">
+        <!-- Avatar goes here -->
+      </div>
+    </div>
+
+    <!-- POST CREATION -->
+    <div id="postCreator" style="display:none;margin-top:2.5rem;">
+      <h3>Create a Post</h3>
+
+      <textarea id="postText"
+                placeholder="Share a thought, meme, update, idea..."
+                style="width:100%;padding:0.8rem;border-radius:14px;background:#111;border:1px solid #333;color:white;height:90px;"></textarea>
+
+      <input id="postImage" type="text"
+             placeholder="Image URL (optional)"
+             style="width:100%;margin-top:0.7rem;padding:0.6rem;border-radius:14px;background:#111;border:1px solid #333;color:white;">
+
+      <button id="submitPostBtn" class="btn" style="margin-top:0.8rem;">
+        Post
+      </button>
+    </div>
+
+    <!-- COMMUNITY FEED -->
+    <div id="communityFeed"></div>
+
+  </section>
+  <!-- =========================================
+       SHOP TAB
+       ========================================= -->
+  <section id="shop">
+    <h2 class="section-title">Shop</h2>
+    <p class="section-subtitle">
+      Support the IzenBlox ecosystem and unlock extras like IzenEnergy and custom-built Discord servers.
+      Payments are not automated yet – purchases are handled manually through Discord and tickets.
+    </p>
+
+    <!-- IzenEnergy PLANS -->
+    <h3 style="margin-top:2rem;margin-bottom:0.6rem;">IzenEnergy Subscriptions</h3>
+    <p style="font-size:0.9rem;color:var(--muted);">
+      Boost the universe with IzenEnergy. These are concept tiers for future perks and support.
+    </p>
+
+    <div class="shop-grid" style="margin-top:1.2rem;">
+      <!-- 1 month -->
+      <article class="shop-card">
+        <h4 style="font-size:1.1rem;">IzenBlox – 1 Month of IzenEnergy</h4>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
+          1 month of IzenEnergy<br>
+          <strong>(£0.99)</strong> + 30 day free trial
+        </p>
+        <button class="btn open-purchase" data-product="IzenEnergy – 1 Month (£0.99 + 30 day trial)">
+          Purchase / Contact
+        </button>
+      </article>
+
+      <!-- 3 months -->
+      <article class="shop-card">
+        <h4 style="font-size:1.1rem;">IzenBlox – 3 Months of IzenEnergy</h4>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
+          3 months of IzenEnergy<br>
+          <strong>£1.00</strong>
+        </p>
+        <button class="btn open-purchase" data-product="IzenEnergy – 3 Months (£1)">
+          Purchase / Contact
+        </button>
+      </article>
+
+      <!-- Annual -->
+      <article class="shop-card">
+        <h4 style="font-size:1.1rem;">IzenBlox – Annual IzenEnergy</h4>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
+          12 months of IzenEnergy<br>
+          <strong>£3.50</strong>
+        </p>
+        <button class="btn open-purchase" data-product="IzenEnergy – Annual (£3.50)">
+          Purchase / Contact
+        </button>
+      </article>
+    </div>
+
+    <!-- DISCORD SERVERS SECTION -->
+    <h3 style="margin-top:3rem;margin-bottom:0.6rem;">Discord Servers – Built for You</h3>
+    <p style="font-size:0.9rem;color:var(--muted);">
+      I’ll build a Discord server for your community based on your needs. Prices are in GBP and handled manually.
+    </p>
+
+    <div class="shop-grid" style="margin-top:1.2rem;">
+      <!-- Small server -->
+      <article class="shop-card">
+        <h4 style="font-size:1.1rem;">Small Server</h4>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
+          A compact server for small friend groups or starter communities.<br>
+          <strong>£1.00</strong>
+        </p>
+        <button class="btn open-purchase" data-product="Discord Server – Small (£1)">
+          Purchase / Contact
+        </button>
+      </article>
+
+      <!-- Advanced server -->
+      <article class="shop-card">
+        <h4 style="font-size:1.1rem;">Advanced Server</h4>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
+          More channels, roles, permissions, and structure. Good for public servers.<br>
+          <strong>£5.00</strong>
+        </p>
+        <button class="btn open-purchase" data-product="Discord Server – Advanced (£5)">
+          Purchase / Contact
+        </button>
+      </article>
+
+      <!-- Triple A server -->
+      <article class="shop-card">
+        <h4 style="font-size:1.1rem;">Triple A Server</h4>
+        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
+          Full, polished, high-end server with advanced setups, bots & structure.<br>
+          <strong>£10.00</strong>
+        </p>
+        <button class="btn open-purchase" data-product="Discord Server – Triple A (£10)">
+          Purchase / Contact
+        </button>
+      </article>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:1.5rem;">
+      <strong>Note:</strong> Payments are not processed through this site yet. Everything is done via Discord and manual agreement.
+      I know this isn’t convenient – I’m sorry about that. To make up for it, you can claim a free purple avatar decoration glow
+      in the Community tab.
+    </p>
+  </section>
+
+  <!-- =========================================
+       SUPPORT / TICKETS
+       (copied + simplified from your existing version)
+       ========================================= -->
+  <section id="support">
+    <h2 class="section-title">Support & Tickets</h2>
+    <p class="section-subtitle">
+      Need help, want to report a bug, or have feedback about any IzenBlox game or system?
+      Use this form to open a ticket. Tickets are stored locally on your browser.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem;margin-top:2rem;">
+      <!-- USER FORM -->
+      <div style="padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);">
+        <h3>Open a Ticket</h3>
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:0.8rem;">
+          I’ll read these when I can. Use Discord if it’s urgent.
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:0.7rem;">
           <div>
-            <strong>What you can expect:</strong>
-            <div class="about-pill-row">
-              <div class="about-pill">📢 Central news hub</div>
-              <div class="about-pill">🧪 Early test builds</div>
-              <div class="about-pill">🔔 Event & update pings</div>
-              <div class="about-pill">💡 Player feedback channels</div>
-              <div class="about-pill">🎲 RNG & horror focused content</div>
-            </div>
+            <label>Your name / username</label>
+            <input id="ticketName" type="text" placeholder="e.g. CharlesXRA"
+                   style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
           </div>
-          <p>
-            As I ship more content, this site and the Discord will grow – new tabs, new systems, and more ways to
-            interact with the games you enjoy.
-          </p>
+          <div>
+            <label>Contact (Discord / Roblox / Email)</label>
+            <input id="ticketContact" type="text" placeholder="e.g. mcgc0787 / your Roblox user"
+                   style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
+          </div>
+          <div>
+            <label>Subject</label>
+            <input id="ticketSubject" type="text" placeholder="Short summary"
+                   style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
+          </div>
+          <div>
+            <label>Message</label>
+            <textarea id="ticketMessage" placeholder="Explain the issue, bug, idea, or feedback..."
+                      style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:90px;"></textarea>
+          </div>
         </div>
 
-        <aside class="about-card">
-          <h3>How everything connects</h3>
-          <ul class="about-list">
-            <li><strong>Website:</strong> Central hub with news, game list, and support.</li>
-            <li><strong>Discord:</strong> Real-time chat, announcements, and dev interaction.</li>
-            <li><strong>Roblox games:</strong> Where all the action happens – horror, RNG, story & more.</li>
-            <li><strong>Support system:</strong> Players can open tickets directly from this site.</li>
-          </ul>
-          <p style="color:var(--muted);margin-top:0.4rem;">
-            I want the community to feel heard – your feedback, bug reports, and ideas all feed back into future
-            updates.
-          </p>
-        </aside>
-      </div>
-    </section>
+        <button id="submitTicketBtn" class="btn" style="margin-top:0.8rem;">
+          Submit Ticket
+        </button>
 
-    <!-- SUPPORT / TICKETS -->
-    <section id="support">
-      <div class="section-pill">
-        <span>🛟</span>
-        Support & Tickets
+        <p id="ticketStatus" style="font-size:0.85rem;margin-top:0.5rem;"></p>
       </div>
-      <h2 class="section-title">Need help or want to report something?</h2>
-      <p class="section-subtitle">
-        Use the support form to open a ticket. It can be about bugs, game issues, feedback, or anything related to
-        the IzenBlox universe. Only the owner can see and manage tickets from the admin panel.
+
+      <!-- OWNER PANEL (FRONT-END ONLY) -->
+      <div style="padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);">
+        <h3>Owner Ticket Panel (Local Demo)</h3>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.7rem;">
+          This panel is only secure on your own device. For real protection, a backend would be needed.
+        </p>
+
+        <div id="ticketLoginArea">
+          <label>Owner password</label>
+          <input id="ticketOwnerPassword" type="password" placeholder="Enter password"
+                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
+          <button id="ticketLoginBtn" class="btn" style="margin-top:0.6rem;background:#4b5563;">
+            Unlock Ticket Panel
+          </button>
+          <p id="ticketLoginStatus" style="font-size:0.8rem;margin-top:0.4rem;color:#fca5a5;"></p>
+        </div>
+
+        <div id="ticketAdminPanel" style="display:none;margin-top:1rem;">
+          <button id="refreshTicketsBtn" class="btn" style="background:#4b5563;margin-bottom:0.6rem;">
+            Refresh Tickets
+          </button>
+          <div id="ticketsList" style="max-height:260px;overflow:auto;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.5rem;font-size:0.85rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================
+       PURCHASE MODAL (USED BY SHOP)
+       ========================================= -->
+  <div id="purchaseModalBg" class="modal-bg">
+    <div class="modal" id="purchaseModal">
+      <h3 id="purchaseTitle">Purchase</h3>
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:0.8rem;">
+        Purchases are not handled automatically on this site yet.
+        I’m sorry – I know that’s not convenient.
       </p>
 
-      <div class="support-grid">
-        <!-- USER TICKET FORM -->
-        <div class="support-card">
-          <h3>Open a Support Ticket</h3>
-          <p>Fill this out and your ticket will be queued in the system for the owner to review.</p>
+      <p style="font-size:0.9rem;color:var(--muted);">
+        To buy this item or service, please contact me on Discord:
+      </p>
+      <p style="margin-top:0.3rem;font-weight:600;">
+        Discord: <span style="color:#a5b4fc;">mcgc0787</span>
+      </p>
 
-          <form id="ticketForm">
-            <div class="field">
-              <label for="ticketName">Your name / username</label>
-              <input id="ticketName" name="name" type="text" placeholder="e.g. CharlesXRA" required />
-            </div>
-            <div class="field">
-              <label for="ticketContact">Contact (Discord tag, Roblox user, or email)</label>
-              <input id="ticketContact" name="contact" type="text" placeholder="e.g. izenblox#0001" required />
-            </div>
-            <div class="field">
-              <label for="ticketSubject">Subject</label>
-              <input id="ticketSubject" name="subject" type="text" placeholder="Short title for your issue" required />
-            </div>
-            <div class="field">
-              <label for="ticketMessage">Message</label>
-              <textarea id="ticketMessage" name="message" placeholder="Describe the bug, issue, or feedback..." required></textarea>
-            </div>
-            <button class="btn btn-primary" type="submit">
-              Submit ticket
-            </button>
-            <div id="ticketStatus" class="support-status"></div>
-          </form>
-        </div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:0.8rem;">
+        You can also open a support ticket on this website and mention which product you’d like.
+      </p>
 
-        <!-- OWNER PANEL -->
-        <div class="support-card">
-          <h3>Owner Ticket Panel</h3>
-          <p>
-            This panel is intended only for the site owner. From here, you can accept, reply to, or remove tickets.
-          </p>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:0.8rem;">
+        As a “sorry this isn’t fully automated yet” bonus, you can claim
+        a <strong>free purple avatar glow decoration</strong> in the Community tab.
+      </p>
 
-          <div id="adminLogin" class="admin-login">
-            <div class="field">
-              <label for="adminPassword">Owner password</label>
-              <input id="adminPassword" type="password" placeholder="Enter owner password" />
-            </div>
-            <button class="btn btn-ghost" type="button" id="adminLoginBtn">Unlock panel</button>
-            <small>
-              Note: This is purely front-end and for demo/dev purposes only.
-              For real security, you’ll need a backend and proper authentication.
-            </small>
-            <div id="adminLoginStatus" class="support-status"></div>
-          </div>
-
-          <div id="adminPanel" style="display:none;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
-              <strong style="font-size:0.9rem;">Tickets</strong>
-              <button class="ticket-btn" type="button" id="refreshTicketsBtn">Refresh</button>
-            </div>
-            <div class="tickets-table" id="ticketsContainer">
-              <!-- Tickets table will be rendered here -->
-            </div>
-            <div class="ticket-meta">
-              Tickets are stored locally in this browser using <code>localStorage</code>.
-            </div>
-          </div>
-        </div>
+      <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1.2rem;">
+        <button id="purchaseOpenTicketBtn" class="btn" style="background:#4b5563;">
+          Open Ticket
+        </button>
+        <button id="purchaseCloseBtn" class="btn" style="background:#1f2937;">
+          Close
+        </button>
       </div>
-    </section>
-  </main>
-
-  <footer>
-    <div>© <span id="year"></span> IzenBlox. All rights reserved.</div>
-    <div>Built for the IzenBlox Roblox community – RNG, horror & story experiences.</div>
-  </footer>
-
+    </div>
+  </div>
+  <!-- =========================================
+       SCRIPTS
+       ========================================= -->
   <script>
-    // ===== UTILITIES: TICKETS STORAGE =====
-    const TICKETS_KEY = "izenbloxTickets";
-    const OWNER_PASSWORD = "IzenOwner123!"; // change this to whatever you want
+    // ===============================
+    // CONSTANTS & STORAGE HELPERS
+    // ===============================
+    const COMMUNITY_PROFILE_KEY = "izenblox_profile";
+    const COMMUNITY_POSTS_KEY = "izenblox_posts";
+    const TICKETS_KEY = "izenblox_tickets";
+    const OWNER_PASSWORD = "IzenOwner123!"; // change if you want
 
-    function loadTickets() {
+    function saveToStorage(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function loadFromStorage(key, fallback) {
       try {
-        const raw = localStorage.getItem(TICKETS_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return [];
-        return parsed;
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        return JSON.parse(raw);
       } catch (e) {
-        console.error("Failed to parse tickets", e);
-        return [];
+        console.error("Storage parse error for", key, e);
+        return fallback;
       }
     }
 
-    function saveTickets(tickets) {
-      localStorage.setItem(TICKETS_KEY, JSON.stringify(tickets));
-    }
-
-    function addTicket(ticket) {
-      const tickets = loadTickets();
-      tickets.push(ticket);
-      saveTickets(tickets);
-    }
-
-    function updateTicket(id, updater) {
-      const tickets = loadTickets();
-      const index = tickets.findIndex(t => t.id === id);
-      if (index === -1) return;
-      tickets[index] = updater(tickets[index]);
-      saveTickets(tickets);
-    }
-
-    function deleteTicket(id) {
-      const tickets = loadTickets().filter(t => t.id !== id);
-      saveTickets(tickets);
-    }
-
-    // ===== RENDER TICKETS TABLE =====
-    function renderTickets() {
-      const container = document.getElementById("ticketsContainer");
-      const tickets = loadTickets().sort((a, b) => b.createdAt - a.createdAt);
-
-      if (!tickets.length) {
-        container.innerHTML = '<div style="padding:0.6rem;font-size:0.8rem;color:var(--muted);">No tickets yet.</div>';
-        return;
-      }
-
-      let html = "<table>";
-      html += "<thead><tr><th>Subject</th><th>From</th><th>Status</th><th>Actions</th></tr></thead><tbody>";
-
-      tickets.forEach(ticket => {
-        const created = new Date(ticket.createdAt);
-        const createdStr = created.toLocaleString();
-        const statusClass =
-          ticket.status === "pending"
-            ? "status-pending"
-            : ticket.status === "open"
-            ? "status-open"
-            : "status-closed";
-
-        html += `
-          <tr>
-            <td>
-              <strong>${escapeHtml(ticket.subject)}</strong><br />
-              <span style="font-size:0.72rem;color:var(--muted);">
-                ${escapeHtml(ticket.message.slice(0, 80))}${ticket.message.length > 80 ? "..." : ""}
-              </span><br />
-              <span class="ticket-meta">Created: ${createdStr}</span>
-              ${ticket.reply ? `<br /><span class="ticket-meta">Reply: ${escapeHtml(ticket.reply)}</span>` : ""}
-            </td>
-            <td>
-              <span style="font-size:0.8rem;">${escapeHtml(ticket.name)}</span><br />
-              <span class="ticket-meta">${escapeHtml(ticket.contact)}</span>
-            </td>
-            <td>
-              <span class="status-pill ${statusClass}">${ticket.status}</span>
-            </td>
-            <td>
-              <div class="ticket-actions">
-                <button class="ticket-btn" type="button" data-action="accept" data-id="${ticket.id}">Accept</button>
-                <button class="ticket-btn" type="button" data-action="reply" data-id="${ticket.id}">Reply</button>
-                <button class="ticket-btn danger" type="button" data-action="delete" data-id="${ticket.id}">Delete</button>
-              </div>
-            </td>
-          </tr>
-        `;
-      });
-
-      html += "</tbody></table>";
-      container.innerHTML = html;
-
-      // Attach action handlers
-      container.querySelectorAll(".ticket-btn").forEach(btn => {
-        btn.addEventListener("click", handleTicketAction);
-      });
-    }
-
+    // ===============================
+    // SIMPLE ESCAPE HELPER
+    // ===============================
     function escapeHtml(str) {
-      return str
+      return String(str)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -1247,99 +791,574 @@
         .replace(/'/g, "&#039;");
     }
 
-    function handleTicketAction(e) {
-      const action = e.currentTarget.getAttribute("data-action");
-      const id = e.currentTarget.getAttribute("data-id");
-      if (!id) return;
-
-      if (action === "delete") {
-        if (confirm("Delete this ticket?")) {
-          deleteTicket(id);
-          renderTickets();
-        }
-      } else if (action === "accept") {
-        updateTicket(id, t => ({ ...t, status: "open" }));
-        renderTickets();
-      } else if (action === "reply") {
-        const reply = prompt("Enter your reply to the user:");
-        if (reply && reply.trim()) {
-          updateTicket(id, t => ({ ...t, status: "closed", reply: reply.trim() }));
-          renderTickets();
-        }
-      }
-    }
-
-    // ===== FORM HANDLING =====
+    // ===============================
+    // COMMUNITY: PROFILE + POSTS
+    // ===============================
     document.addEventListener("DOMContentLoaded", () => {
-      const yearSpan = document.getElementById("year");
-      if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      const connectGoogleBtn = document.getElementById("connectGoogleBtn");
+      const profileSetup = document.getElementById("profileSetup");
+      const profileDisplay = document.getElementById("profileDisplay");
+      const profileCard = document.getElementById("profileCard");
+      const saveProfileBtn = document.getElementById("saveProfileBtn");
+      const postCreator = document.getElementById("postCreator");
+      const submitPostBtn = document.getElementById("submitPostBtn");
+      const communityFeed = document.getElementById("communityFeed");
 
-      const ticketForm = document.getElementById("ticketForm");
-      const ticketStatus = document.getElementById("ticketStatus");
-      const adminLoginBtn = document.getElementById("adminLoginBtn");
-      const adminLoginStatus = document.getElementById("adminLoginStatus");
-      const adminPanel = document.getElementById("adminPanel");
-      const adminLogin = document.getElementById("adminLogin");
-      const refreshTicketsBtn = document.getElementById("refreshTicketsBtn");
+      let selectedDecoration = "purple-glow";
+      let currentProfile = loadFromStorage(COMMUNITY_PROFILE_KEY, null);
+      let posts = loadFromStorage(COMMUNITY_POSTS_KEY, []);
 
-      if (ticketForm) {
-        ticketForm.addEventListener("submit", e => {
-          e.preventDefault();
-          const formData = new FormData(ticketForm);
-          const name = String(formData.get("name") || "").trim();
-          const contact = String(formData.get("contact") || "").trim();
-          const subject = String(formData.get("subject") || "").trim();
-          const message = String(formData.get("message") || "").trim();
+      // Determine if profile is "owner" (for extra styling)
+      function isOwnerProfile(profile) {
+        if (!profile || !profile.username) return false;
+        const name = profile.username.toLowerCase();
+        // You can customize this condition if you want
+        return name.includes("izen") || name.includes("owner");
+      }
 
-          if (!name || !contact || !subject || !message) {
-            ticketStatus.textContent = "Please fill in all fields.";
-            ticketStatus.className = "support-status error";
+      // DEMO "CONNECT GOOGLE" – just reveals profile setup
+      if (connectGoogleBtn) {
+        connectGoogleBtn.addEventListener("click", () => {
+          if (profileSetup) profileSetup.style.display = "block";
+          connectGoogleBtn.textContent = "Connected (Demo)";
+        });
+      }
+
+      // DECORATION CLICK HANDLERS
+      const decoElements = document.querySelectorAll(".avatar-decoration[data-deco]");
+      decoElements.forEach(el => {
+        el.addEventListener("click", () => {
+          const deco = el.getAttribute("data-deco");
+          if (!deco) return;
+          selectedDecoration = deco;
+
+          // Visual feedback (border highlight)
+          decoElements.forEach(d => {
+            d.style.outline = "none";
+          });
+          el.style.outline = "2px solid #a855f7";
+        });
+      });
+
+      // RENDER PROFILE CARD
+      function renderProfile(profile) {
+        if (!profileDisplay || !profileCard) return;
+        if (!profile) {
+          profileDisplay.style.display = "none";
+          return;
+        }
+
+        profileDisplay.style.display = "block";
+        profileCard.innerHTML = "";
+
+        const wrapper = document.createElement("div");
+        wrapper.style.display = "flex";
+        wrapper.style.alignItems = "center";
+        wrapper.style.gap = "1rem";
+
+        const avatarWrap = document.createElement("div");
+        avatarWrap.className = "avatar-decoration";
+
+        // decoration
+        if (profile.decoration === "purple-glow") {
+          avatarWrap.classList.add("purple-glow");
+        }
+
+        const img = document.createElement("img");
+        img.style.width = "72px";
+        img.style.height = "72px";
+        img.style.borderRadius = "50%";
+        img.src = profile.avatarUrl || "https://i.imgur.com/6VBx3io.png";
+        img.alt = "Avatar";
+        avatarWrap.appendChild(img);
+
+        const info = document.createElement("div");
+
+        const nameEl = document.createElement("div");
+        if (profile.isOwner) {
+          nameEl.className = "owner-name";
+        }
+        nameEl.textContent = profile.username || "Unnamed IzenBlox user";
+
+        const pronounsEl = document.createElement("div");
+        pronounsEl.style.fontSize = "0.85rem";
+        pronounsEl.style.color = "var(--muted)";
+        pronounsEl.textContent = profile.pronouns || "";
+
+        const bioEl = document.createElement("div");
+        bioEl.style.fontSize = "0.86rem";
+        bioEl.style.color = "var(--muted)";
+        bioEl.style.marginTop = "0.35rem";
+        bioEl.textContent = profile.bio || "";
+
+        const chips = document.createElement("div");
+        chips.style.display = "flex";
+        chips.style.flexWrap = "wrap";
+        chips.style.gap = "0.35rem";
+        chips.style.marginTop = "0.35rem";
+
+        function addChipsFromStr(str, labelPrefix) {
+          if (!str) return;
+          str.split(",").forEach(part => {
+            const t = part.trim();
+            if (!t) return;
+            const chip = document.createElement("span");
+            chip.style.fontSize = "0.78rem";
+            chip.style.padding = "0.18rem 0.6rem";
+            chip.style.borderRadius = "999px";
+            chip.style.border = "1px solid rgba(255,255,255,0.2)";
+            chip.style.background = "rgba(0,0,0,0.4)";
+            chip.textContent = labelPrefix ? `${labelPrefix} ${t}` : t;
+            chips.appendChild(chip);
+          });
+        }
+
+        addChipsFromStr(profile.interests, "");
+        addChipsFromStr(profile.games, "Fav:");
+
+        info.appendChild(nameEl);
+        info.appendChild(pronounsEl);
+        info.appendChild(bioEl);
+        info.appendChild(chips);
+
+        // Owner block frame wrapper
+        if (profile.isOwner) {
+          const framed = document.createElement("div");
+          framed.className = "owner-frame";
+          framed.style.display = "inline-block";
+          framed.appendChild(avatarWrap);
+          wrapper.appendChild(framed);
+        } else {
+          wrapper.appendChild(avatarWrap);
+        }
+
+        wrapper.appendChild(info);
+        profileCard.appendChild(wrapper);
+      }
+
+      // RENDER FEED
+      function renderFeed() {
+        if (!communityFeed) return;
+        if (!Array.isArray(posts) || posts.length === 0) {
+          communityFeed.innerHTML =
+            '<p style="font-size:0.9rem;color:var(--muted);margin-top:1rem;">No posts yet. Be the first to post something!</p>';
+          return;
+        }
+
+        communityFeed.innerHTML = "";
+        posts.forEach(post => {
+          const card = document.createElement("article");
+          card.className = "post-card";
+
+          const header = document.createElement("div");
+          header.style.display = "flex";
+          header.style.alignItems = "center";
+          header.style.gap = "0.7rem";
+
+          const avatarWrap = document.createElement("div");
+          avatarWrap.style.width = "40px";
+          avatarWrap.style.height = "40px";
+          avatarWrap.style.borderRadius = "999px";
+          avatarWrap.style.overflow = "hidden";
+          avatarWrap.style.background = "#111";
+
+          const img = document.createElement("img");
+          img.src =
+            (post.profile && post.profile.avatarUrl) ||
+            "https://i.imgur.com/6VBx3io.png";
+          img.alt = "Avatar";
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "cover";
+          avatarWrap.appendChild(img);
+
+          const meta = document.createElement("div");
+          const nameEl = document.createElement("div");
+          nameEl.style.fontSize = "0.88rem";
+          nameEl.style.fontWeight = "600";
+          if (post.profile && post.profile.isOwner) {
+            nameEl.className = "owner-name";
+          }
+          nameEl.textContent =
+            (post.profile && post.profile.username) ||
+            "IzenBlox user";
+
+          const sub = document.createElement("div");
+          sub.style.fontSize = "0.78rem";
+          sub.style.color = "var(--muted)";
+          const dateStr = new Date(post.createdAt).toLocaleString();
+          const pronouns = (post.profile && post.profile.pronouns) || "";
+          sub.textContent = pronouns ? `${pronouns} • ${dateStr}` : dateStr;
+
+          meta.appendChild(nameEl);
+          meta.appendChild(sub);
+
+          header.appendChild(avatarWrap);
+          header.appendChild(meta);
+
+          const body = document.createElement("div");
+          body.style.marginTop = "0.5rem";
+          body.style.fontSize = "0.9rem";
+          body.innerHTML = escapeHtml(post.text);
+
+          card.appendChild(header);
+          card.appendChild(body);
+
+          if (post.imageUrl) {
+            const imgWrap = document.createElement("div");
+            imgWrap.style.marginTop = "0.6rem";
+            imgWrap.style.borderRadius = "12px";
+            imgWrap.style.overflow = "hidden";
+            imgWrap.style.border = "1px solid rgba(255,255,255,0.1)";
+            const pimg = document.createElement("img");
+            pimg.src = post.imageUrl;
+            pimg.alt = "Post image";
+            pimg.style.width = "100%";
+            pimg.style.display = "block";
+            imgWrap.appendChild(pimg);
+            card.appendChild(imgWrap);
+          }
+
+          // Small footer with delete (owner only)
+          const footer = document.createElement("div");
+          footer.style.marginTop = "0.5rem";
+          footer.style.display = "flex";
+          footer.style.justifyContent = "space-between";
+          footer.style.alignItems = "center";
+          footer.style.fontSize = "0.78rem";
+          footer.style.color = "var(--muted)";
+
+          footer.textContent = "IzenBlox community post";
+
+          if (currentProfile && currentProfile.isOwner) {
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "Delete";
+            delBtn.style.background = "transparent";
+            delBtn.style.border = "1px solid rgba(248,113,113,0.8)";
+            delBtn.style.color = "#fecaca";
+            delBtn.style.borderRadius = "999px";
+            delBtn.style.padding = "0.1rem 0.5rem";
+            delBtn.style.cursor = "pointer";
+            delBtn.style.fontSize = "0.75rem";
+            delBtn.addEventListener("click", () => {
+              posts = posts.filter(p => p.id !== post.id);
+              saveToStorage(COMMUNITY_POSTS_KEY, posts);
+              renderFeed();
+            });
+            footer.appendChild(delBtn);
+          }
+
+          card.appendChild(footer);
+          communityFeed.appendChild(card);
+        });
+      }
+
+      // LOAD EXISTING PROFILE IF FOUND
+      if (currentProfile) {
+        renderProfile(currentProfile);
+        if (postCreator) postCreator.style.display = "block";
+        if (profileSetup) profileSetup.style.display = "none";
+        if (connectGoogleBtn) connectGoogleBtn.textContent = "Connected (Demo)";
+      }
+
+      // LOAD POSTS
+      renderFeed();
+
+      // SAVE PROFILE BUTTON
+      if (saveProfileBtn) {
+        saveProfileBtn.addEventListener("click", () => {
+          const usernameEl = document.getElementById("profUsername");
+          const pronounsEl = document.getElementById("profPronouns");
+          const avatarEl = document.getElementById("profAvatar");
+          const bioEl = document.getElementById("profBio");
+          const interestsEl = document.getElementById("profInterests");
+          const gamesEl = document.getElementById("profGames");
+
+          const username = usernameEl.value.trim();
+          if (!username) {
+            alert("Please enter a username.");
             return;
           }
 
-          const ticket = {
+          const newProfile = {
+            username,
+            pronouns: pronounsEl.value.trim(),
+            avatarUrl: avatarEl.value.trim(),
+            bio: bioEl.value.trim(),
+            interests: interestsEl.value.trim(),
+            games: gamesEl.value.trim(),
+            decoration: selectedDecoration,
+          };
+          newProfile.isOwner = isOwnerProfile(newProfile);
+
+          currentProfile = newProfile;
+          saveToStorage(COMMUNITY_PROFILE_KEY, newProfile);
+          renderProfile(newProfile);
+
+          if (postCreator) postCreator.style.display = "block";
+          alert("Profile saved.");
+        });
+      }
+
+      // SUBMIT POST BUTTON
+      if (submitPostBtn) {
+        submitPostBtn.addEventListener("click", () => {
+          if (!currentProfile) {
+            alert("Create your profile first.");
+            return;
+          }
+
+          const textEl = document.getElementById("postText");
+          const imgEl = document.getElementById("postImage");
+          const text = textEl.value.trim();
+          const imgUrl = imgEl.value.trim();
+
+          if (!text) {
+            alert("Write something to post.");
+            return;
+          }
+
+          const newPost = {
+            id: "post_" + Date.now() + "_" + Math.random().toString(16).slice(2),
+            text,
+            imageUrl: imgUrl || "",
+            profile: currentProfile,
+            createdAt: Date.now()
+          };
+
+          posts.unshift(newPost);
+          saveToStorage(COMMUNITY_POSTS_KEY, posts);
+          renderFeed();
+
+          textEl.value = "";
+          imgEl.value = "";
+        });
+      }
+      // ===============================
+      // TICKETS: USER + OWNER PANEL
+      // ===============================
+      const ticketNameEl = document.getElementById("ticketName");
+      const ticketContactEl = document.getElementById("ticketContact");
+      const ticketSubjectEl = document.getElementById("ticketSubject");
+      const ticketMessageEl = document.getElementById("ticketMessage");
+      const submitTicketBtn = document.getElementById("submitTicketBtn");
+      const ticketStatusEl = document.getElementById("ticketStatus");
+
+      const ticketLoginArea = document.getElementById("ticketLoginArea");
+      const ticketOwnerPasswordEl = document.getElementById("ticketOwnerPassword");
+      const ticketLoginBtn = document.getElementById("ticketLoginBtn");
+      const ticketLoginStatusEl = document.getElementById("ticketLoginStatus");
+      const ticketAdminPanel = document.getElementById("ticketAdminPanel");
+      const refreshTicketsBtn = document.getElementById("refreshTicketsBtn");
+      const ticketsList = document.getElementById("ticketsList");
+
+      let tickets = loadFromStorage(TICKETS_KEY, []);
+
+      function renderTickets() {
+        if (!ticketsList) return;
+        if (!tickets || tickets.length === 0) {
+          ticketsList.innerHTML = '<p style="font-size:0.85rem;color:var(--muted);padding:0.3rem;">No tickets yet.</p>';
+          return;
+        }
+
+        ticketsList.innerHTML = "";
+        tickets
+          .slice()
+          .sort((a,b) => b.createdAt - a.createdAt)
+          .forEach(ticket => {
+            const wrapper = document.createElement("div");
+            wrapper.style.borderBottom = "1px solid rgba(255,255,255,0.07)";
+            wrapper.style.padding = "0.4rem 0.2rem";
+
+            const title = document.createElement("div");
+            title.style.fontSize = "0.88rem";
+            title.style.fontWeight = "600";
+            title.textContent = ticket.subject;
+
+            const meta = document.createElement("div");
+            meta.style.fontSize = "0.78rem";
+            meta.style.color = "var(--muted)";
+            const d = new Date(ticket.createdAt).toLocaleString();
+            meta.textContent = `${ticket.name} • ${ticket.contact} • ${d}`;
+
+            const msg = document.createElement("div");
+            msg.style.fontSize = "0.85rem";
+            msg.style.marginTop = "0.2rem";
+            msg.textContent = ticket.message;
+
+            const actions = document.createElement("div");
+            actions.style.marginTop = "0.3rem";
+            actions.style.display = "flex";
+            actions.style.gap = "0.4rem";
+
+            const replyBtn = document.createElement("button");
+            replyBtn.textContent = "Reply (note)";
+            replyBtn.style.borderRadius = "999px";
+            replyBtn.style.border = "1px solid rgba(96,165,250,0.8)";
+            replyBtn.style.background = "transparent";
+            replyBtn.style.color = "#bfdbfe";
+            replyBtn.style.fontSize = "0.75rem";
+            replyBtn.style.cursor = "pointer";
+            replyBtn.style.padding = "0.1rem 0.5rem";
+            replyBtn.addEventListener("click", () => {
+              const r = prompt("Enter a reply note (local only, for your reference):");
+              if (!r) return;
+              ticket.reply = r;
+              saveToStorage(TICKETS_KEY, tickets);
+              renderTickets();
+            });
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.style.borderRadius = "999px";
+            deleteBtn.style.border = "1px solid rgba(248,113,113,0.8)";
+            deleteBtn.style.background = "transparent";
+            deleteBtn.style.color = "#fecaca";
+            deleteBtn.style.fontSize = "0.75rem";
+            deleteBtn.style.cursor = "pointer";
+            deleteBtn.style.padding = "0.1rem 0.5rem";
+            deleteBtn.addEventListener("click", () => {
+              if (!confirm("Delete this ticket?")) return;
+              tickets = tickets.filter(t => t.id !== ticket.id);
+              saveToStorage(TICKETS_KEY, tickets);
+              renderTickets();
+            });
+
+            actions.appendChild(replyBtn);
+            actions.appendChild(deleteBtn);
+
+            if (ticket.reply) {
+              const replyNote = document.createElement("div");
+              replyNote.style.fontSize = "0.78rem";
+              replyNote.style.color = "#a5b4fc";
+              replyNote.style.marginTop = "0.25rem";
+              replyNote.textContent = "Reply note: " + ticket.reply;
+              wrapper.appendChild(replyNote);
+            }
+
+            wrapper.appendChild(title);
+            wrapper.appendChild(meta);
+            wrapper.appendChild(msg);
+            wrapper.appendChild(actions);
+            ticketsList.appendChild(wrapper);
+          });
+      }
+
+      if (submitTicketBtn) {
+        submitTicketBtn.addEventListener("click", () => {
+          const name = ticketNameEl.value.trim();
+          const contact = ticketContactEl.value.trim();
+          const subject = ticketSubjectEl.value.trim();
+          const message = ticketMessageEl.value.trim();
+
+          if (!name || !contact || !subject || !message) {
+            ticketStatusEl.textContent = "Please fill in all fields.";
+            ticketStatusEl.style.color = "#fca5a5";
+            return;
+          }
+
+          const newTicket = {
             id: "ticket_" + Date.now() + "_" + Math.random().toString(16).slice(2),
             name,
             contact,
             subject,
             message,
-            status: "pending",
-            reply: "",
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            reply: ""
           };
 
-          addTicket(ticket);
-          ticketForm.reset();
-          ticketStatus.textContent = "Ticket submitted! The owner will review it soon.";
-          ticketStatus.className = "support-status success";
+          tickets.push(newTicket);
+          saveToStorage(TICKETS_KEY, tickets);
+
+          ticketStatusEl.textContent = "Ticket submitted. Thank you.";
+          ticketStatusEl.style.color = "#bbf7d0";
+
+          ticketNameEl.value = "";
+          ticketContactEl.value = "";
+          ticketSubjectEl.value = "";
+          ticketMessageEl.value = "";
 
           setTimeout(() => {
-            ticketStatus.textContent = "";
-          }, 3500);
+            ticketStatusEl.textContent = "";
+          }, 3000);
         });
       }
 
-      if (adminLoginBtn) {
-        adminLoginBtn.addEventListener("click", () => {
-          const input = document.getElementById("adminPassword");
-          if (!input) return;
-          const value = input.value.trim();
-          if (value === OWNER_PASSWORD) {
-            adminLogin.style.display = "none";
-            adminPanel.style.display = "block";
-            adminLoginStatus.textContent = "";
+      if (ticketLoginBtn) {
+        ticketLoginBtn.addEventListener("click", () => {
+          const pw = ticketOwnerPasswordEl.value;
+          if (pw === OWNER_PASSWORD) {
+            ticketLoginStatusEl.textContent = "";
+            ticketLoginArea.style.display = "none";
+            ticketAdminPanel.style.display = "block";
             renderTickets();
           } else {
-            adminLoginStatus.textContent = "Incorrect password.";
-            adminLoginStatus.className = "support-status error";
+            ticketLoginStatusEl.textContent = "Incorrect password.";
           }
         });
       }
 
       if (refreshTicketsBtn) {
-        refreshTicketsBtn.addEventListener("click", renderTickets);
+        refreshTicketsBtn.addEventListener("click", () => {
+          tickets = loadFromStorage(TICKETS_KEY, []);
+          renderTickets();
+        });
       }
-    });
+
+      // ===============================
+      // SHOP: PURCHASE MODAL
+      // ===============================
+      const purchaseModalBg = document.getElementById("purchaseModalBg");
+      const purchaseTitleEl = document.getElementById("purchaseTitle");
+      const purchaseCloseBtn = document.getElementById("purchaseCloseBtn");
+      const purchaseOpenTicketBtn = document.getElementById("purchaseOpenTicketBtn");
+      const openPurchaseButtons = document.querySelectorAll(".open-purchase");
+
+      openPurchaseButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const product = btn.getAttribute("data-product") || "Purchase";
+          if (purchaseTitleEl) {
+            purchaseTitleEl.textContent = product;
+          }
+          if (purchaseModalBg) {
+            purchaseModalBg.style.display = "flex";
+          }
+        });
+      });
+
+      if (purchaseCloseBtn) {
+        purchaseCloseBtn.addEventListener("click", () => {
+          if (purchaseModalBg) purchaseModalBg.style.display = "none";
+        });
+      }
+
+      if (purchaseOpenTicketBtn) {
+        purchaseOpenTicketBtn.addEventListener("click", () => {
+          if (purchaseModalBg) purchaseModalBg.style.display = "none";
+          // Scroll to support section
+          const supportSection = document.getElementById("support");
+          if (supportSection) {
+            supportSection.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      }
+
+      // Close modal on bg click
+      if (purchaseModalBg) {
+        purchaseModalBg.addEventListener("click", (e) => {
+          if (e.target === purchaseModalBg) {
+            purchaseModalBg.style.display = "none";
+          }
+        });
+      }
+
+      // ===============================
+      // FOOTER YEAR (if you want a footer)
+      // ===============================
+      // You can add a footer at the bottom if desired.
+
+    }); // END DOMContentLoaded
   </script>
+
 </body>
 </html>
