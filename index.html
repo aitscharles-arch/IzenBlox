@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IzenBlox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --primary: #4f46e5;
+      --primary-soft: rgba(79, 70, 229, 0.2);
+      --accent: #22d3ee;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --success: #22c55e;
+      --card-radius: 18px;
+      --transition-fast: 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* NAVBAR */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(3, 7, 18, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: conic-gradient(from 150deg, #22d3ee, #4f46e5, #22c55e, #22d3ee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(79, 70, 229, 0.7);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      position: relative;
+      color: var(--muted);
+      padding-bottom: 0.15rem;
+      transition: color var(--transition-fast);
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      bottom: -0.15rem;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      transform-origin: center;
+      transform: scaleX(0);
+      transition: transform var(--transition-fast);
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* LAYOUT */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    section {
+      padding: 4rem 0;
+      scroll-margin-top: 72px;
+    }
+
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      background: rgba(15, 23, 42, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 620px;
+      font-size: 0.95rem;
+    }
+
+    /* HERO / NEWS FEED */
+    .hero-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.7fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-main-card {
+      border-radius: 24px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.35), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.25), transparent 55%),
+                  rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 24px 50px rgba(15, 23, 42, 0.8);
+      transform: translateY(12px);
+      opacity: 0;
+      animation: float-in 0.7s ease-out forwards;
+    }
+
+    @keyframes float-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.32rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.55rem 1.2rem;
+      border: 1px solid transparent;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      box-shadow: 0 15px 35px rgba(79, 70, 229, 0.7);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(79, 70, 229, 0.9);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .hero-side {
+      position: relative;
+      transform: translateY(26px);
+      opacity: 0;
+      animation: float-in-side 0.85s ease-out forwards 0.15s;
+    }
+
+    @keyframes float-in-side {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .discord-preview {
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .discord-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .discord-avatar-row {
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 2px solid #020617;
+      background: radial-gradient(circle at 30% 0, #fff, #9ca3af);
+      margin-left: -0.4rem;
+      box-shadow: 0 0 12px rgba(15, 23, 42, 0.9);
+    }
+
+    .avatar:first-child {
+      margin-left: 0;
+    }
+
+    .discord-small-tag {
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+
+    .discord-channels {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: grid;
+      gap: 0.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .discord-channel-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      white-space: nowrap;
+    }
+
+    .discord-mobile-banner {
+      margin-top: 1rem;
+      border-radius: 16px;
+      padding: 0.8rem;
+      background: linear-gradient(135deg, var(--primary-soft), rgba(34, 211, 238, 0.2));
+      font-size: 0.75rem;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+      animation: pulse 1.4s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(1.7);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* GAMES SECTION */
+    .games-grid {
+      margin-top: 2.3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .game-card {
+      position: relative;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      background: radial-gradient(circle at top, rgba(34, 211, 238, 0.15), transparent 60%),
+                  rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: card-pop 0.4s ease-out forwards;
+    }
+
+    .game-card:nth-child(2) { animation-delay: 0.1s; }
+    .game-card:nth-child(3) { animation-delay: 0.2s; }
+    .game-card:nth-child(4) { animation-delay: 0.3s; }
+    .game-card:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes card-pop {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .game-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+    }
+
+    .game-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .game-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .game-actions {
+      margin-top: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .game-tag {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--muted);
+    }
+
+    .game-play-btn {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid rgba(129, 140, 248, 0.9);
+      background: radial-gradient(circle at top, rgba(79, 70, 229, 0.6), rgba(17, 24, 39, 0.95));
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .game-play-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(79, 70, 229, 0.7);
+    }
+
+    /* ABOUT SECTION */
+    .about-grid {
+      margin-top: 2.3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3.3fr) minmax(0, 2.5fr);
+      gap: 2rem;
+    }
+
+    .about-text {
+      font-size: 0.95rem;
+      color: var(--muted);
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .about-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.3rem;
+    }
+
+    .about-pill {
+      font-size: 0.75rem;
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .about-card {
+      border-radius: var(--card-radius);
+      padding: 1.1rem;
+      background: radial-gradient(circle at top, rgba(79, 70, 229, 0.35), transparent 60%),
+                  rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      display: grid;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+    }
+
+    .about-card h3 {
+      font-size: 1rem;
+    }
+
+    .about-list {
+      list-style: none;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .about-list li::before {
+      content: "•";
+      color: var(--accent);
+      margin-right: 0.4rem;
+    }
+
+    /* SUPPORT SECTION */
+    .support-grid {
+      margin-top: 2.3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .support-card {
+      border-radius: var(--card-radius);
+      padding: 1.1rem;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 24px 40px rgba(15, 23, 42, 0.8);
+    }
+
+    .support-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .support-card p {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .field {
+      margin-bottom: 0.75rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(129, 140, 248, 0.9);
+      box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .support-status {
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+      min-height: 1.1rem;
+    }
+
+    .support-status.success {
+      color: var(--success);
+    }
+
+    .support-status.error {
+      color: var(--danger);
+    }
+
+    .admin-login {
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
+    }
+
+    .admin-login small {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .tickets-table {
+      margin-top: 0.4rem;
+      max-height: 260px;
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    th,
+    td {
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.98);
+      z-index: 1;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .status-pending {
+      color: #facc15;
+      border-color: rgba(250, 204, 21, 0.6);
+      background: rgba(23, 23, 23, 0.7);
+    }
+
+    .status-open {
+      color: var(--accent);
+      border-color: rgba(34, 211, 238, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .status-closed {
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .ticket-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .ticket-btn {
+      font-size: 0.68rem;
+      border-radius: 999px;
+      padding: 0.18rem 0.55rem;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      background: rgba(17, 24, 39, 0.95);
+      cursor: pointer;
+      color: var(--muted);
+      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .ticket-btn:hover {
+      background: rgba(30, 64, 175, 0.9);
+      border-color: rgba(129, 140, 248, 0.9);
+      color: #e5e7eb;
+      transform: translateY(-0.5px);
+    }
+
+    .ticket-btn.danger:hover {
+      background: rgba(185, 28, 28, 0.9);
+      border-color: rgba(248, 113, 113, 0.9);
+    }
+
+    .ticket-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      margin-top: 1rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-grid,
+      .support-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-side {
+        order: -1;
+      }
+
+      header {
+        position: static;
+      }
+
+      section {
+        scroll-margin-top: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      nav ul {
+        font-size: 0.85rem;
+      }
+
+      main {
+        padding-inline: 1rem;
+      }
+
+      .hero-main-card,
+      .discord-preview,
+      .support-card,
+      .about-card {
+        border-radius: 16px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <div class="logo-icon">IZ</div>
+        <div class="logo-text">IzenBlox</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">News Feed</a></li>
+          <li><a href="#games">Games</a></li>
+          <li><a href="#about">More Info</a></li>
+          <li><a href="#support">Support</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- NEWS FEED / HERO -->
+    <section id="home">
+      <div class="section-pill">
+        <span>●</span>
+        IzenBlox News Feed
+      </div>
+      <h2 class="section-title">
+        Upcoming Discord Hub for Roblox & RNG Fans
+      </h2>
+      <p class="section-subtitle">
+        Stay up to date with the latest from IzenBlox – news, leaks, patch notes, sneak peeks, and community events
+        for all of my Roblox projects in one place.
+      </p>
+
+      <div class="hero-grid">
+        <article class="hero-main-card">
+          <h1 class="hero-title">The official IzenBlox Discord is coming soon.</h1>
+          <p class="hero-tagline">
+            Chat about updates, drop your feedback, join events and giveaways, and be the first to know about new
+            features across AREA-61, Izen’s RNG, Piggy: Lost Memories, Fractured Hotel, and more.
+          </p>
+
+          <div class="hero-badges">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              Live patch notes
+            </div>
+            <div class="badge">
+              🎁 Giveaways & events
+            </div>
+            <div class="badge">
+              ⚙️ Devlogs & sneak peeks
+            </div>
+            <div class="badge">
+              💬 Community feedback
+            </div>
+          </div>
+
+          <div class="hero-buttons">
+            <button class="btn btn-primary" type="button">
+              <span>Join waitlist</span>
+              <span>→</span>
+            </button>
+            <button class="btn btn-ghost" type="button" onclick="document.getElementById('support').scrollIntoView({behavior:'smooth'})">
+              Get support
+            </button>
+          </div>
+
+          <div class="hero-meta">
+            <span>
+              <span class="pulse-dot"></span>
+              Launch status: In development
+            </span>
+            <span>Channels planned: #news, #updates, #rng-chat, #bug-reports, #off-topic</span>
+          </div>
+        </article>
+
+        <aside class="hero-side">
+          <div class="discord-preview">
+            <div class="discord-status">
+              <span>discord.gg/izenblox <span style="color:#4ade80;">(coming soon)</span></span>
+              <span>🛠️ Setting up server</span>
+            </div>
+
+            <div class="discord-avatar-row">
+              <div class="avatar-stack">
+                <div class="avatar"></div>
+                <div class="avatar"></div>
+                <div class="avatar"></div>
+              </div>
+              <div>
+                <div class="discord-small-tag">Future members</div>
+                <div style="font-size:0.8rem;color:var(--muted);">RNG grinders • horror fans • testers</div>
+              </div>
+            </div>
+
+            <div class="discord-channels">
+              <div class="discord-channel-pill">#📢-announcements</div>
+              <div class="discord-channel-pill">#🧪-beta-updates</div>
+              <div class="discord-channel-pill">#🎲-izens-rng</div>
+              <div class="discord-channel-pill">#👻-horror-games</div>
+              <div class="discord-channel-pill">#🐞-bug-reports</div>
+            </div>
+
+            <div class="discord-mobile-banner">
+              <div>
+                <strong>Mobile-friendly news.</strong><br />
+                Instant pings when I drop updates or new games.
+              </div>
+              <div class="pulse-dot"></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- GAMES SECTION -->
+    <section id="games">
+      <div class="section-pill">
+        <span>🎮</span>
+        Games
+      </div>
+      <h2 class="section-title">Dive into the IzenBlox universe</h2>
+      <p class="section-subtitle">
+        All my currently released experiences in one place. Click a game to play it on Roblox – more updates and
+        new projects will be announced through the Discord and this site.
+      </p>
+
+      <div class="games-grid">
+        <article class="game-card">
+          <div class="game-pill">Sci-Fi Facility • Horror</div>
+          <h3 class="game-title">AREA-61</h3>
+          <p class="game-meta">
+            Explore a restricted research facility, uncover dark experiments, and try to make it out alive.
+          </p>
+          <div class="game-actions">
+            <span class="game-tag">Exploration / Horror</span>
+            <a class="game-play-btn" href="https://www.roblox.com/games/87266240086991/AREA-61" target="_blank" rel="noopener">
+              Play on Roblox →
+            </a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-pill">RNG • Luck Based</div>
+          <h3 class="game-title">Izen’s RNG</h3>
+          <p class="game-meta">
+            Roll for crazy rarities, flex your luck with auras and titles, and race your friends to insane drops.
+          </p>
+          <div class="game-actions">
+            <span class="game-tag">RNG / Grinding</span>
+            <a class="game-play-btn" href="https://www.roblox.com/games/115438193421984/Izens-RNG" target="_blank" rel="noopener">
+              Play on Roblox →
+            </a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-pill">Piggy Universe</div>
+          <h3 class="game-title">Piggy: Lost Memories</h3>
+          <p class="game-meta">
+            A new story inspired by Piggy with original twists, secrets, and puzzles to solve.
+          </p>
+          <div class="game-actions">
+            <span class="game-tag">Story / Mystery</span>
+            <a class="game-play-btn" href="https://www.roblox.com/games/18151143347/Piggy-Lost-Memories" target="_blank" rel="noopener">
+              Play on Roblox →
+            </a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-pill">Hotel • Horror</div>
+          <h3 class="game-title">Fractured Hotel</h3>
+          <p class="game-meta">
+            Check in to a hotel that doesn’t want you to leave. Glitches, entities and secrets behind every door.
+          </p>
+          <div class="game-actions">
+            <span class="game-tag">Horror / Atmosphere</span>
+            <a class="game-play-btn" href="https://www.roblox.com/games/17843106302/Fractured-Hotel" target="_blank" rel="noopener">
+              Play on Roblox →
+            </a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-pill">Sandbox • Dev</div>
+          <h3 class="game-title">CharlesXRAs Place #40</h3>
+          <p class="game-meta">
+            A personal dev space where ideas are tested, features are prototyped, and future content is born.
+          </p>
+          <div class="game-actions">
+            <span class="game-tag">Experiments</span>
+            <a class="game-play-btn" href="https://www.roblox.com/games/15169868230/CharlesXRAs-Place-Number-40" target="_blank" rel="noopener">
+              Play on Roblox →
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MORE INFORMATION -->
+    <section id="about">
+      <div class="section-pill">
+        <span>ℹ️</span>
+        More Information
+      </div>
+      <h2 class="section-title">What is IzenBlox?</h2>
+      <p class="section-subtitle">
+        IzenBlox is the central home for my Roblox projects, community updates, and support. Think of this as the
+        control panel for everything I’m building.
+      </p>
+
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            The goal of this website is to make it easy for players to track updates across all my games, find links
+            quickly, and join the Discord when it launches. No more chasing random links – everything you need will
+            live here.
+          </p>
+          <p>
+            The upcoming Discord server ties directly into this site: every big update, patch, and event will be
+            announced in both places, so you never miss anything important.
+          </p>
+          <div>
+            <strong>What you can expect:</strong>
+            <div class="about-pill-row">
+              <div class="about-pill">📢 Central news hub</div>
+              <div class="about-pill">🧪 Early test builds</div>
+              <div class="about-pill">🔔 Event & update pings</div>
+              <div class="about-pill">💡 Player feedback channels</div>
+              <div class="about-pill">🎲 RNG & horror focused content</div>
+            </div>
+          </div>
+          <p>
+            As I ship more content, this site and the Discord will grow – new tabs, new systems, and more ways to
+            interact with the games you enjoy.
+          </p>
+        </div>
+
+        <aside class="about-card">
+          <h3>How everything connects</h3>
+          <ul class="about-list">
+            <li><strong>Website:</strong> Central hub with news, game list, and support.</li>
+            <li><strong>Discord:</strong> Real-time chat, announcements, and dev interaction.</li>
+            <li><strong>Roblox games:</strong> Where all the action happens – horror, RNG, story & more.</li>
+            <li><strong>Support system:</strong> Players can open tickets directly from this site.</li>
+          </ul>
+          <p style="color:var(--muted);margin-top:0.4rem;">
+            I want the community to feel heard – your feedback, bug reports, and ideas all feed back into future
+            updates.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SUPPORT / TICKETS -->
+    <section id="support">
+      <div class="section-pill">
+        <span>🛟</span>
+        Support & Tickets
+      </div>
+      <h2 class="section-title">Need help or want to report something?</h2>
+      <p class="section-subtitle">
+        Use the support form to open a ticket. It can be about bugs, game issues, feedback, or anything related to
+        the IzenBlox universe. Only the owner can see and manage tickets from the admin panel.
+      </p>
+
+      <div class="support-grid">
+        <!-- USER TICKET FORM -->
+        <div class="support-card">
+          <h3>Open a Support Ticket</h3>
+          <p>Fill this out and your ticket will be queued in the system for the owner to review.</p>
+
+          <form id="ticketForm">
+            <div class="field">
+              <label for="ticketName">Your name / username</label>
+              <input id="ticketName" name="name" type="text" placeholder="e.g. CharlesXRA" required />
+            </div>
+            <div class="field">
+              <label for="ticketContact">Contact (Discord tag, Roblox user, or email)</label>
+              <input id="ticketContact" name="contact" type="text" placeholder="e.g. izenblox#0001" required />
+            </div>
+            <div class="field">
+              <label for="ticketSubject">Subject</label>
+              <input id="ticketSubject" name="subject" type="text" placeholder="Short title for your issue" required />
+            </div>
+            <div class="field">
+              <label for="ticketMessage">Message</label>
+              <textarea id="ticketMessage" name="message" placeholder="Describe the bug, issue, or feedback..." required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">
+              Submit ticket
+            </button>
+            <div id="ticketStatus" class="support-status"></div>
+          </form>
+        </div>
+
+        <!-- OWNER PANEL -->
+        <div class="support-card">
+          <h3>Owner Ticket Panel</h3>
+          <p>
+            This panel is intended only for the site owner. From here, you can accept, reply to, or remove tickets.
+          </p>
+
+          <div id="adminLogin" class="admin-login">
+            <div class="field">
+              <label for="adminPassword">Owner password</label>
+              <input id="adminPassword" type="password" placeholder="Enter owner password" />
+            </div>
+            <button class="btn btn-ghost" type="button" id="adminLoginBtn">Unlock panel</button>
+            <small>
+              Note: This is purely front-end and for demo/dev purposes only.
+              For real security, you’ll need a backend and proper authentication.
+            </small>
+            <div id="adminLoginStatus" class="support-status"></div>
+          </div>
+
+          <div id="adminPanel" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+              <strong style="font-size:0.9rem;">Tickets</strong>
+              <button class="ticket-btn" type="button" id="refreshTicketsBtn">Refresh</button>
+            </div>
+            <div class="tickets-table" id="ticketsContainer">
+              <!-- Tickets table will be rendered here -->
+            </div>
+            <div class="ticket-meta">
+              Tickets are stored locally in this browser using <code>localStorage</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> IzenBlox. All rights reserved.</div>
+    <div>Built for the IzenBlox Roblox community – RNG, horror & story experiences.</div>
+  </footer>
+
+  <script>
+    // ===== UTILITIES: TICKETS STORAGE =====
+    const TICKETS_KEY = "izenbloxTickets";
+    const OWNER_PASSWORD = "IzenOwner123!"; // change this to whatever you want
+
+    function loadTickets() {
+      try {
+        const raw = localStorage.getItem(TICKETS_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+      } catch (e) {
+        console.error("Failed to parse tickets", e);
+        return [];
+      }
+    }
+
+    function saveTickets(tickets) {
+      localStorage.setItem(TICKETS_KEY, JSON.stringify(tickets));
+    }
+
+    function addTicket(ticket) {
+      const tickets = loadTickets();
+      tickets.push(ticket);
+      saveTickets(tickets);
+    }
+
+    function updateTicket(id, updater) {
+      const tickets = loadTickets();
+      const index = tickets.findIndex(t => t.id === id);
+      if (index === -1) return;
+      tickets[index] = updater(tickets[index]);
+      saveTickets(tickets);
+    }
+
+    function deleteTicket(id) {
+      const tickets = loadTickets().filter(t => t.id !== id);
+      saveTickets(tickets);
+    }
+
+    // ===== RENDER TICKETS TABLE =====
+    function renderTickets() {
+      const container = document.getElementById("ticketsContainer");
+      const tickets = loadTickets().sort((a, b) => b.createdAt - a.createdAt);
+
+      if (!tickets.length) {
+        container.innerHTML = '<div style="padding:0.6rem;font-size:0.8rem;color:var(--muted);">No tickets yet.</div>';
+        return;
+      }
+
+      let html = "<table>";
+      html += "<thead><tr><th>Subject</th><th>From</th><th>Status</th><th>Actions</th></tr></thead><tbody>";
+
+      tickets.forEach(ticket => {
+        const created = new Date(ticket.createdAt);
+        const createdStr = created.toLocaleString();
+        const statusClass =
+          ticket.status === "pending"
+            ? "status-pending"
+            : ticket.status === "open"
+            ? "status-open"
+            : "status-closed";
+
+        html += `
+          <tr>
+            <td>
+              <strong>${escapeHtml(ticket.subject)}</strong><br />
+              <span style="font-size:0.72rem;color:var(--muted);">
+                ${escapeHtml(ticket.message.slice(0, 80))}${ticket.message.length > 80 ? "..." : ""}
+              </span><br />
+              <span class="ticket-meta">Created: ${createdStr}</span>
+              ${ticket.reply ? `<br /><span class="ticket-meta">Reply: ${escapeHtml(ticket.reply)}</span>` : ""}
+            </td>
+            <td>
+              <span style="font-size:0.8rem;">${escapeHtml(ticket.name)}</span><br />
+              <span class="ticket-meta">${escapeHtml(ticket.contact)}</span>
+            </td>
+            <td>
+              <span class="status-pill ${statusClass}">${ticket.status}</span>
+            </td>
+            <td>
+              <div class="ticket-actions">
+                <button class="ticket-btn" type="button" data-action="accept" data-id="${ticket.id}">Accept</button>
+                <button class="ticket-btn" type="button" data-action="reply" data-id="${ticket.id}">Reply</button>
+                <button class="ticket-btn danger" type="button" data-action="delete" data-id="${ticket.id}">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += "</tbody></table>";
+      container.innerHTML = html;
+
+      // Attach action handlers
+      container.querySelectorAll(".ticket-btn").forEach(btn => {
+        btn.addEventListener("click", handleTicketAction);
+      });
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function handleTicketAction(e) {
+      const action = e.currentTarget.getAttribute("data-action");
+      const id = e.currentTarget.getAttribute("data-id");
+      if (!id) return;
+
+      if (action === "delete") {
+        if (confirm("Delete this ticket?")) {
+          deleteTicket(id);
+          renderTickets();
+        }
+      } else if (action === "accept") {
+        updateTicket(id, t => ({ ...t, status: "open" }));
+        renderTickets();
+      } else if (action === "reply") {
+        const reply = prompt("Enter your reply to the user:");
+        if (reply && reply.trim()) {
+          updateTicket(id, t => ({ ...t, status: "closed", reply: reply.trim() }));
+          renderTickets();
+        }
+      }
+    }
+
+    // ===== FORM HANDLING =====
+    document.addEventListener("DOMContentLoaded", () => {
+      const yearSpan = document.getElementById("year");
+      if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+      const ticketForm = document.getElementById("ticketForm");
+      const ticketStatus = document.getElementById("ticketStatus");
+      const adminLoginBtn = document.getElementById("adminLoginBtn");
+      const adminLoginStatus = document.getElementById("adminLoginStatus");
+      const adminPanel = document.getElementById("adminPanel");
+      const adminLogin = document.getElementById("adminLogin");
+      const refreshTicketsBtn = document.getElementById("refreshTicketsBtn");
+
+      if (ticketForm) {
+        ticketForm.addEventListener("submit", e => {
+          e.preventDefault();
+          const formData = new FormData(ticketForm);
+          const name = String(formData.get("name") || "").trim();
+          const contact = String(formData.get("contact") || "").trim();
+          const subject = String(formData.get("subject") || "").trim();
+          const message = String(formData.get("message") || "").trim();
+
+          if (!name || !contact || !subject || !message) {
+            ticketStatus.textContent = "Please fill in all fields.";
+            ticketStatus.className = "support-status error";
+            return;
+          }
+
+          const ticket = {
+            id: "ticket_" + Date.now() + "_" + Math.random().toString(16).slice(2),
+            name,
+            contact,
+            subject,
+            message,
+            status: "pending",
+            reply: "",
+            createdAt: Date.now()
+          };
+
+          addTicket(ticket);
+          ticketForm.reset();
+          ticketStatus.textContent = "Ticket submitted! The owner will review it soon.";
+          ticketStatus.className = "support-status success";
+
+          setTimeout(() => {
+            ticketStatus.textContent = "";
+          }, 3500);
+        });
+      }
+
+      if (adminLoginBtn) {
+        adminLoginBtn.addEventListener("click", () => {
+          const input = document.getElementById("adminPassword");
+          if (!input) return;
+          const value = input.value.trim();
+          if (value === OWNER_PASSWORD) {
+            adminLogin.style.display = "none";
+            adminPanel.style.display = "block";
+            adminLoginStatus.textContent = "";
+            renderTickets();
+          } else {
+            adminLoginStatus.textContent = "Incorrect password.";
+            adminLoginStatus.className = "support-status error";
+          }
+        });
+      }
+
+      if (refreshTicketsBtn) {
+        refreshTicketsBtn.addEventListener("click", renderTickets);
+      }
+    });
+  </script>
+</body>
+</html>
