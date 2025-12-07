@@ -1,1364 +1,954 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>IzenBlox</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<meta charset="UTF-8">
+<title>IZENBLOX</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;600&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-/* =========================================
-   GLOBAL THEME + VARIABLES
-   ========================================= */
-:root {
-  --bg: #050816;
-  --bg-alt: #0b1020;
-  --primary: #4f46e5;
-  --primary-soft: rgba(79,70,229,0.3);
-  --accent: #22d3ee;
-  --text: #f9fafb;
-  --muted: #9ca3af;
-
-  /* OWNER GOLD */
-  --owner-gold-1: #f6e48a;
-  --owner-gold-2: #e5c14a;
-  --owner-glow: rgba(255,221,100,0.65);
-
-  /* Decoration Glow */
-  --purple-glow: rgba(175,100,255,0.75);
-
-  --card-radius: 18px;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Orbitron,system-ui,sans-serif;
+  background:radial-gradient(circle at top,#0a021c,#020008,#000);
+  color:#fff;
+  overflow-x:hidden;
 }
 
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* NAVBAR */
+nav{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:80px;
+  background:rgba(2,0,24,0.95);
+  border-bottom:2px solid #00f6ff;
+  backdrop-filter:blur(18px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 40px;
+  z-index:999;
+}
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.logo{
+  font-size:24px;
+  letter-spacing:5px;
+  color:#00f6ff;
+  text-shadow:0 0 20px #00f6ff,0 0 40px #ff00ff;
+}
+.nav-tagline{
+  font-size:11px;
+  color:#aaa;
+}
+.nav-links{
+  display:flex;
+  gap:12px;
+}
+.nav-links button{
+  background:transparent;
+  border:1px solid #00f6ff;
+  color:#00f6ff;
+  padding:8px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:13px;
+  transition:.25s;
+  white-space:nowrap;
+}
+.nav-links button:hover{
+  background:linear-gradient(90deg,#00f6ff,#ff00ff);
+  color:#020008;
+  box-shadow:0 0 20px #00f6ff;
+}
+#navCommunityBtn{
+  background:linear-gradient(90deg,#ff00ff,#00f6ff,#00ff88);
+  color:#020008;
+  border:none;
+  font-weight:700;
+  box-shadow:0 0 20px #ff00ff;
+}
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+}
+#navUser{
+  max-width:120px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+#navAuthBtn{
+  background:#00f6ff;
+  color:#020008;
+  border:none;
+  padding:8px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:600;
+  box-shadow:0 0 16px #00f6ff;
 }
 
-body {
-  background: radial-gradient(circle at top, #111827 0%, #020617 50%, #000 100%);
-  color: var(--text);
-  font-family: system-ui, sans-serif;
-  overflow-x: hidden;
+/* GENERIC PAGE LAYOUT */
+.page{
+  display:none;
+  padding-top:110px;
+  min-height:100vh;
+}
+.page.active{display:block;}
+
+.section{
+  width:90%;
+  max-width:1200px;
+  margin:0 auto 50px auto;
+  background:rgba(3,0,30,0.92);
+  border-radius:26px;
+  border:1px solid rgba(0,246,255,0.3);
+  box-shadow:0 0 35px rgba(0,246,255,0.25);
+  padding:30px;
 }
 
-/* LINKS */
-a { color: inherit; text-decoration: none; }
-
-/* =========================================
-   NAVIGATION BAR
-   ========================================= */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  backdrop-filter: blur(16px);
-  background: rgba(0,0,0,0.5);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+/* HERO HOME */
+.hero-wrap{
+  width:90%;
+  max-width:1200px;
+  margin:0 auto 40px auto;
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(0,1.5fr);
+  gap:30px;
+  align-items:center;
+}
+@media(max-width:900px){
+  .hero-wrap{grid-template-columns:1fr;}
+}
+.hero-title{
+  font-size:42px;
+  line-height:1.1;
+  text-shadow:0 0 20px #00f6ff;
+}
+.hero-title span{color:#00f6ff;}
+.hero-sub{
+  margin-top:14px;
+  font-size:14px;
+  color:#d8d8ff;
+}
+.hero-cta{
+  margin-top:24px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.hero-cta button{
+  border:none;
+  border-radius:999px;
+  padding:12px 22px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+.btn-primary{
+  background:linear-gradient(90deg,#00f6ff,#ff00ff);
+  color:#020008;
+  box-shadow:0 0 25px #00f6ff;
+}
+.btn-ghost{
+  background:transparent;
+  border:1px solid #ff00ff;
+  color:#ff86ff;
+}
+.hero-card{
+  position:relative;
+  min-height:220px;
+  border-radius:26px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 10% 0,#ff00ff33,transparent 55%),
+    radial-gradient(circle at 90% 100%,#00f6ff33,transparent 55%),
+    #050014;
+  border:1px solid rgba(255,255,255,0.08);
+  padding:22px;
+}
+.hero-pill{
+  position:absolute;
+  top:14px;right:24px;
+  font-size:10px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.6);
+  border:1px solid #00f6ff;
+}
+.hero-card h3{margin-top:10px;font-size:16px;}
+.hero-card ul{
+  margin-top:14px;
+  font-size:12px;
+  list-style:none;
+}
+.hero-card ul li::before{
+  content:"◆ ";
+  color:#00f6ff;
 }
 
-.nav {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  padding: 0.8rem 1.4rem;
-  align-items: center;
-  justify-content: space-between;
+/* GRID CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+.card{
+  background:rgba(6,2,40,0.95);
+  border-radius:22px;
+  border:1px solid rgba(0,246,255,0.25);
+  padding:18px 18px 20px;
+  text-align:left;
+  font-size:13px;
+  box-shadow:0 0 20px rgba(0,246,255,0.12);
+}
+.card h2{font-size:17px;margin-bottom:6px;}
+.card small{font-size:11px;color:#aaa;}
+.card strong{color:#00ff9d;}
+.card img{
+  width:100%;
+  border-radius:16px;
+  margin-top:10px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* FORM ELEMENTS */
+input,textarea,select{
+  width:100%;
+  padding:10px 12px;
+  margin:6px 0 10px 0;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  font-family:inherit;
+  font-size:13px;
+  background:#05001a;
+  color:#fff;
+}
+textarea{min-height:70px;resize:vertical;}
+
+.auth-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
+.auth-title{margin-bottom:10px;font-size:18px;}
+
+.avatars{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:8px;
+}
+.avatars img{
+  width:64px;height:64px;
+  border-radius:50%;
+  border:2px solid #00f6ff77;
+  cursor:pointer;
+  transition:.2s;
+}
+.avatars img:hover{
+  transform:scale(1.08);
+  border-color:#00f6ff;
+  box-shadow:0 0 15px #00f6ff;
+}
+#avatarPreview{
+  width:90px;height:90px;
+  border-radius:50%;
+  border:3px solid #ff00ff;
+  margin-top:10px;
+  object-fit:cover;
 }
 
-.logo-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  background: conic-gradient(from 180deg, var(--accent), var(--primary), var(--accent));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 900;
-  color: black;
-  font-size: 0.9rem;
+/* COMMUNITY */
+.community-layout{
+  display:grid;
+  grid-template-columns:minmax(0,2.4fr) minmax(0,1.4fr);
+  gap:20px;
+}
+@media(max-width:950px){
+  .community-layout{grid-template-columns:1fr;}
+}
+.chat-box{
+  background:#05001a;
+  border-radius:18px;
+  border:1px solid rgba(0,246,255,0.35);
+  padding:14px;
+}
+#chatFeed{
+  max-height:380px;
+  overflow-y:auto;
+  padding-right:4px;
+}
+.message{
+  margin-bottom:12px;
+  padding:10px 10px 8px;
+  border-left:3px solid #00f6ffcc;
+  background:rgba(7,2,40,0.95);
+  border-radius:10px;
+  font-size:13px;
+}
+.msg-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:4px;
+}
+.msg-user{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.msg-user img{
+  width:24px;height:24px;
+  border-radius:50%;
+  border:1px solid #00f6ffaa;
+}
+.msg-meta{
+  font-size:10px;
+  color:#aaa;
+}
+.msg-actions span{
+  font-size:11px;
+  margin-left:10px;
+  cursor:pointer;
+  color:#00f6ff;
+}
+.msg-actions span.like{
+  color:#ff78ff;
+}
+.mention{color:#ff9ee5;font-weight:700;}
+
+.chat-input-row{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+.chat-input-row input{
+  flex:1;
+}
+.chat-input-row button{
+  padding:10px 16px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(90deg,#00f6ff,#00ff88);
+  color:#020008;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-.logo-text {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+/* PROFILE / DM SIDE */
+.profile-panel{
+  background:#05001a;
+  border-radius:18px;
+  border:1px solid rgba(255,0,255,0.35);
+  padding:16px;
+  font-size:13px;
+}
+.profile-top{
+  display:flex;
+  gap:12px;
+}
+.profile-top img{
+  width:64px;height:64px;
+  border-radius:50%;
+  border:3px solid #ff00ff;
+}
+.profile-name{
+  font-size:16px;
+}
+.profile-status{
+  font-size:11px;
+  margin-top:4px;
+}
+.status-dot{
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  margin-right:4px;
+  background:#00ff88;
+}
+.dm-section{
+  margin-top:14px;
+  border-top:1px solid #31103f;
+  padding-top:10px;
+}
+.dm-list{
+  font-size:12px;
+  max-height:120px;
+  overflow-y:auto;
+  margin-bottom:6px;
 }
 
-nav ul {
-  display: flex;
-  gap: 1.3rem;
-  list-style: none;
+/* SHOP / ABOUT */
+.shop-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+}
+.shop-card{
+  background:#05001a;
+  border-radius:20px;
+  border:1px solid rgba(0,246,255,0.4);
+  padding:18px;
+  text-align:left;
+  font-size:13px;
+}
+.shop-card h3{font-size:16px;margin-bottom:4px;}
+.price{font-size:18px;color:#00ff88;margin:6px 0;}
+.shop-card button{
+  margin-top:10px;
+  border-radius:999px;
+  border:none;
+  padding:8px 14px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff00ff,#00f6ff);
+  color:#020008;
 }
 
-nav a {
-  color: var(--muted);
-  font-size: 0.92rem;
-  position: relative;
-}
-
-nav a:hover {
-  color: var(--text);
-}
-
-/* =========================================
-   OWNER PROFILE COSMETICS (GOLD + BLOCK BORDER)
-   ========================================= */
-
-.owner-name {
-  background: linear-gradient(90deg, var(--owner-gold-1), var(--owner-gold-2));
-  -webkit-background-clip: text;
-  color: transparent;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  text-shadow: 0 0 8px var(--owner-glow), 0 0 20px var(--owner-glow);
-}
-
-.owner-frame {
-  border: 4px solid var(--owner-gold-2);
-  border-radius: 14px;
-  padding: 6px;
-  background: rgba(0,0,0,0.3);
-  box-shadow: 0 0 12px var(--owner-glow), inset 0 0 12px var(--owner-glow);
-}
-
-/* =========================================
-   AVATAR DECORATIONS
-   ========================================= */
-
-.avatar-decoration {
-  position: relative;
-  display: inline-block;
-}
-
-.avatar-decoration img {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-}
-
-.purple-glow {
-  box-shadow: 0 0 18px 8px var(--purple-glow);
-  border: 2px solid rgba(175,100,255,0.5);
-  border-radius: 999px;
-}
-
-/* =========================================
-   SECTIONS (General Layout)
-   ========================================= */
-section {
-  max-width: 1200px;
-  margin: auto;
-  padding: 3.5rem 1.4rem;
-}
-
-.section-title {
-  font-size: 1.9rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.section-subtitle {
-  color: var(--muted);
-  max-width: 700px;
-  font-size: 0.95rem;
-}
-
-/* =========================================
-   COMMUNITY FEED (container only, JS builds)
-   ========================================= */
-
-#communityFeed {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-}
-
-.post-card {
-  background: rgba(0,0,0,0.55);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 1rem;
-  border-radius: 14px;
-}
-
-/* =========================================
-   SHOP SYSTEM
-   ========================================= */
-
-.shop-grid {
-  margin-top: 2rem;
-  display: grid;
-  gap: 1.4rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-
-.shop-card {
-  padding: 1.2rem;
-  background: rgba(0,0,0,0.5);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.15);
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
-  background: var(--primary);
-  border: none;
-  cursor: pointer;
-  margin-top: 0.8rem;
-  color: white;
-}
-
-.btn:hover {
-  opacity: 0.85;
-}
-
-/* MODAL BASE */
-.modal-bg {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(5px);
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-.modal {
-  background: #0b0f1d;
-  padding: 1.7rem;
-  border-radius: 18px;
-  max-width: 420px;
-  width: 100%;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-.modal h3 {
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
+/* FOOTER */
+footer{
+  padding:20px 0 25px;
+  text-align:center;
+  font-size:11px;
+  color:#888;
 }
 </style>
-
 </head>
 <body>
-  <!-- NAVBAR -->
-  <header>
-    <div class="nav">
-      <div class="logo">
-        <div class="logo-icon">IZ</div>
-        <div class="logo-text">IzenBlox</div>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">News Feed</a></li>
-          <li><a href="#games">Games</a></li>
-          <li><a href="#about">More Info</a></li>
-          <li><a href="#community">Community</a></li>
-          <li><a href="#shop">Shop</a></li>
-          <li><a href="#support">Support</a></li>
-        </ul>
-      </nav>
+
+<nav>
+  <div class="nav-left">
+    <div>
+      <div class="logo">IZENBLOX</div>
+      <div class="nav-tagline">Ink-style Roblox community & social hub</div>
     </div>
-  </header>
+  </div>
+  <div class="nav-links">
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('shop')">Shop</button>
+    <button onclick="showPage('about')">About</button>
+    <button id="navCommunityBtn" onclick="showPage('community')">Community</button>
+  </div>
+  <div class="nav-right">
+    <span id="navUser">Guest</span>
+    <button id="navAuthBtn">Sign In</button>
+  </div>
+</nav>
 
-  <!-- =========================================
-       HERO / NEWS FEED
-       ========================================= -->
-  <section id="home">
-    <h2 class="section-title">Upcoming Discord Hub for Roblox & RNG Fans</h2>
-    <p class="section-subtitle">
-      Stay up to date with everything IzenBlox – RNG, horror, story games and community events,
-      all connected through this site, future Discord servers and my Roblox experiences.
-    </p>
-    <div style="display:grid;grid-template-columns:minmax(0,2.2fr)minmax(0,1.8fr);gap:1.5rem;margin-top:2rem;">
-      <div class="owner-frame">
-        <h3 class="owner-name">Izen Himself • Creator</h3>
-        <p style="color:var(--muted);font-size:0.9rem;margin-top:0.4rem;">
-          This is the central hub for all my projects. News, patch notes, leaks, devlogs and future
-          Discord events will all live here so you don’t miss anything.
-        </p>
-        <ul style="margin-top:0.7rem;font-size:0.88rem;color:var(--muted);padding-left:1.1rem;">
-          <li>Live updates for AREA-61, Izen’s RNG, Piggy: Lost Memories and Fractured Hotel</li>
-          <li>Future Discord hub with channels for news, feedback, memes and testing</li>
-          <li>Support tickets, shop & community posts directly on this site</li>
-        </ul>
+<!-- HOME PAGE -->
+<div class="page active" id="home">
+  <div class="hero-wrap">
+    <div>
+      <div class="hero-title">
+        Build your <span>IZENBLOX</span> identity.<br>
+        Connect with the Ink Games community.
       </div>
-
-      <div style="background:rgba(0,0,0,0.5);border-radius:18px;border:1px solid rgba(255,255,255,0.12);padding:1rem;">
-        <h4 style="font-size:1rem;margin-bottom:0.6rem;">Discord server status</h4>
-        <p style="font-size:0.9rem;color:var(--muted);">
-          <strong>discord.gg/izenblox</strong> – planned, not public yet.<br>
-          I’m building channels, permissions, bots, events and integration with this website.
-        </p>
-        <p style="font-size:0.85rem;color:var(--muted);margin-top:0.7rem;">
-          Want to be ready? Create a profile in the <strong>Community</strong> tab and claim
-          a free purple avatar glow in the <strong>Shop</strong> as a “sorry this isn’t fully automatic yet”
-          bonus.
-        </p>
+      <div class="hero-sub">
+        Custom profiles, public timelines, DM chats and upcoming Ink-style Roblox experiences – all tied into the
+        <strong>Izenblox Discord</strong>.
+      </div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showPage('auth')">Create your account</button>
+        <button class="btn-ghost" onclick="showPage('community')">Jump into community feed</button>
       </div>
     </div>
-  </section>
-
-  <!-- =========================================
-       GAMES
-       ========================================= -->
-  <section id="games">
-    <h2 class="section-title">Games</h2>
-    <p class="section-subtitle">
-      All current IzenBlox experiences in one place. These links go straight to Roblox.
-    </p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;margin-top:2rem;">
-      <article class="shop-card">
-        <h3>AREA-61</h3>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
-          Restricted sci-fi facility horror. Explore, survive and uncover what went wrong.
-        </p>
-        <a class="btn" href="https://www.roblox.com/games/87266240086991/AREA-61" target="_blank" rel="noopener">
-          Play on Roblox
-        </a>
-      </article>
-
-      <article class="shop-card">
-        <h3>Izen’s RNG</h3>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
-          Roll for insane luck, flex your auras and titles and race friends for the rarest pulls.
-        </p>
-        <a class="btn" href="https://www.roblox.com/games/115438193421984/Izens-RNG" target="_blank" rel="noopener">
-          Play on Roblox
-        </a>
-      </article>
-
-      <article class="shop-card">
-        <h3>Piggy: Lost Memories</h3>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
-          A fresh take inspired by Piggy with new story, puzzles and secrets.
-        </p>
-        <a class="btn" href="https://www.roblox.com/games/18151143347/Piggy-Lost-Memories" target="_blank" rel="noopener">
-          Play on Roblox
-        </a>
-      </article>
-
-      <article class="shop-card">
-        <h3>Fractured Hotel</h3>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
-          A hotel that doesn’t want guests to leave. Entities, glitches, and eerie atmosphere.
-        </p>
-        <a class="btn" href="https://www.roblox.com/games/17843106302/Fractured-Hotel" target="_blank" rel="noopener">
-          Play on Roblox
-        </a>
-      </article>
-
-      <article class="shop-card">
-        <h3>CharlesXRAs Place #40</h3>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.3rem;">
-          Personal dev sandbox where ideas are tested before they become full experiences.
-        </p>
-        <a class="btn" href="https://www.roblox.com/games/15169868230/CharlesXRAs-Place-Number-40" target="_blank" rel="noopener">
-          Play on Roblox
-        </a>
-      </article>
+    <div class="hero-card">
+      <div class="hero-pill">Sneak peek • Discord</div>
+      <h3>Izenblox Discord server drops soon</h3>
+      <ul>
+        <li>Closed playtests for Squid-style game modes</li>
+        <li>Ranked “Ink Trials” with cosmetic rewards</li>
+        <li>Events, giveaways, creator collabs</li>
+        <li>Special roles for verified Izenblox members</li>
+      </ul>
     </div>
-  </section>
+  </div>
 
-  <!-- =========================================
-       MORE INFORMATION
-       ========================================= -->
-  <section id="about">
-    <h2 class="section-title">What is IzenBlox?</h2>
-    <p class="section-subtitle">
-      IzenBlox is the ecosystem connecting my Roblox games, this website, future Discord servers
-      and community systems like support tickets, posts, and cosmetic unlocks.
-    </p>
-
-    <div style="display:grid;grid-template-columns:minmax(0,1.2fr)minmax(0,1.2fr);gap:1.6rem;margin-top:2rem;">
-      <div>
-        <p style="font-size:0.92rem;color:var(--muted);margin-bottom:0.7rem;">
-          Instead of having everything scattered across random links, IzenBlox pulls it together:
-          games, updates, community, support and shop tools built around the same universe.
-        </p>
-        <p style="font-size:0.92rem;color:var(--muted);margin-bottom:0.7rem;">
-          The future Discord server will mirror this structure – channels for news, RNG flexes,
-          horror theories, memes and bug reports that link back into systems on this site.
-        </p>
+  <div class="section">
+    <h2 style="margin-bottom:18px;">Why people use Izenblox</h2>
+    <div class="grid">
+      <div class="card">
+        <h2>🎭 Custom Identity</h2>
+        <small>Make your profile feel like a main character.</small><br><br>
+        <p>Pick animated-style avatars, fonts and bios inspired by cyber-horror Ink aesthetics. Status, pronouns,
+        tags – all under your control.</p>
+        <img src="https://images.unsplash.com/photo-1526481280695-3c687fd543c0?auto=format&fit=crop&w=700&q=80" alt="">
       </div>
-
-      <div class="shop-card">
-        <h3>How it all connects</h3>
-        <ul style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);padding-left:1.1rem;">
-          <li><strong>Website:</strong> Central hub, community, shop and tickets</li>
-          <li><strong>Discord:</strong> Live chat, events, pings and staff contact</li>
-          <li><strong>Roblox:</strong> Where the RNG, horror and story gameplay happens</li>
-          <li><strong>Cosmetics:</strong> Avatars and decorations shared across systems</li>
-        </ul>
+      <div class="card">
+        <h2>🧪 Ink Games Hub</h2>
+        <small>Stay ahead of new releases.</small><br><br>
+        <p>See dev logs, teasers and patch notes for upcoming titles like <strong>Ink Trials</strong>,
+        <strong>Death Note: Events</strong> and <strong>FNAF: Tragic</strong> before they land on Roblox.</p>
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80" alt="">
       </div>
-    </div>
-  </section>
-  <!-- =========================================
-       COMMUNITY SYSTEM
-       ========================================= -->
-  <section id="community">
-    <h2 class="section-title">Community</h2>
-    <p class="section-subtitle">
-      Sign in, customize your profile, post updates, share memes, upload images, and join
-      the IzenBlox community. Everything here is demo-based and stored locally (no real online login).
-    </p>
-
-    <!-- CONNECT GOOGLE DEMO -->
-    <div id="communityAuth" style="margin-top:2rem;">
-      <button id="connectGoogleBtn" class="btn" style="background:#db4437;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" 
-             style="width:18px;height:18px;border-radius:4px;">
-        Connect Google Account (Demo)
-      </button>
-
-      <p style="font-size:0.85rem;color:var(--muted);margin-top:0.4rem;">
-        This is a simulated login for GitHub Pages. No real Google account is accessed.
-      </p>
-    </div>
-
-    <!-- PROFILE SETUP FORM -->
-    <div id="profileSetup" style="display:none;margin-top:2rem;padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);">
-      <h3 style="margin-bottom:1rem;">Set Up Your Profile</h3>
-
-      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
-
-        <div>
-          <label>Username</label>
-          <input id="profUsername" type="text" placeholder="Your name"
-                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-        </div>
-
-        <div>
-          <label>Pronouns</label>
-          <input id="profPronouns" type="text" placeholder="he/him, she/her, they/them"
-                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-        </div>
-
-        <div>
-          <label>Avatar Image URL</label>
-          <input id="profAvatar" type="text" placeholder="https://example.com/avatar.png"
-                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-        </div>
-
-        <div>
-          <label>Bio</label>
-          <textarea id="profBio" placeholder="Tell people about yourself"
-                    style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:80px;"></textarea>
-        </div>
-
+      <div class="card">
+        <h2>💬 Shared Community Wall</h2>
+        <small>Everyone talks in one timeline.</small><br><br>
+        <p>A global feed where you can ping other members with <span style="color:#ff9ee5">@mentions</span>,
+        reply, like and build reputation through achievements.</p>
+        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=700&q=80" alt="">
       </div>
-
-      <!-- INTERESTS -->
-      <div style="margin-top:1.5rem;">
-        <h4 style="margin-bottom:0.5rem;">Your Interests</h4>
-        <textarea id="profInterests" placeholder="RNG, Horror, Story games, Development..."
-                  style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:70px;"></textarea>
-      </div>
-
-      <!-- FAVORITE GAMES -->
-      <div style="margin-top:1.5rem;">
-        <h4 style="margin-bottom:0.5rem;">Your Favourite IzenBlox Games</h4>
-        <textarea id="profGames" placeholder="Izen's RNG, AREA-61, Fractured Hotel..."
-                  style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:70px;"></textarea>
-      </div>
-
-      <!-- DECORATIONS -->
-      <div style="margin-top:1.5rem;">
-        <h4 style="margin-bottom:0.6rem;">Avatar Decoration</h4>
-
-        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-
-          <!-- Purple Glow -->
-          <div class="avatar-decoration purple-glow" style="cursor:pointer;" data-deco="purple-glow">
-            <img src="https://i.imgur.com/6VBx3io.png" alt="Decoration Preview">
-          </div>
-
-          <!-- Owner Exclusive (locked for normal users) -->
-          <div class="avatar-decoration" style="cursor:not-allowed;opacity:0.3;">
-            <img src="https://i.imgur.com/6VBx3io.png" alt="Owner Deco">
-            <div style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.3rem;">
-              Owner Only
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- SAVE PROFILE -->
-      <button id="saveProfileBtn" class="btn" style="margin-top:1.5rem;">
-        Save Profile
-      </button>
-    </div>
-
-    <!-- PROFILE DISPLAY -->
-    <div id="profileDisplay" style="display:none;margin-top:2.5rem;padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);">
-      <h3 style="margin-bottom:1rem;">Your Profile</h3>
-
-      <div id="profileCard" style="display:flex;gap:1rem;align-items:center;">
-        <!-- Avatar goes here -->
-      </div>
-    </div>
-
-    <!-- POST CREATION -->
-    <div id="postCreator" style="display:none;margin-top:2.5rem;">
-      <h3>Create a Post</h3>
-
-      <textarea id="postText"
-                placeholder="Share a thought, meme, update, idea..."
-                style="width:100%;padding:0.8rem;border-radius:14px;background:#111;border:1px solid #333;color:white;height:90px;"></textarea>
-
-      <input id="postImage" type="text"
-             placeholder="Image URL (optional)"
-             style="width:100%;margin-top:0.7rem;padding:0.6rem;border-radius:14px;background:#111;border:1px solid #333;color:white;">
-
-      <button id="submitPostBtn" class="btn" style="margin-top:0.8rem;">
-        Post
-      </button>
-    </div>
-
-    <!-- COMMUNITY FEED -->
-    <div id="communityFeed"></div>
-
-  </section>
-  <!-- =========================================
-       SHOP TAB
-       ========================================= -->
-  <section id="shop">
-    <h2 class="section-title">Shop</h2>
-    <p class="section-subtitle">
-      Support the IzenBlox ecosystem and unlock extras like IzenEnergy and custom-built Discord servers.
-      Payments are not automated yet – purchases are handled manually through Discord and tickets.
-    </p>
-
-    <!-- IzenEnergy PLANS -->
-    <h3 style="margin-top:2rem;margin-bottom:0.6rem;">IzenEnergy Subscriptions</h3>
-    <p style="font-size:0.9rem;color:var(--muted);">
-      Boost the universe with IzenEnergy. These are concept tiers for future perks and support.
-    </p>
-
-    <div class="shop-grid" style="margin-top:1.2rem;">
-      <!-- 1 month -->
-      <article class="shop-card">
-        <h4 style="font-size:1.1rem;">IzenBlox – 1 Month of IzenEnergy</h4>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
-          1 month of IzenEnergy<br>
-          <strong>(£0.99)</strong> + 30 day free trial
-        </p>
-        <button class="btn open-purchase" data-product="IzenEnergy – 1 Month (£0.99 + 30 day trial)">
-          Purchase / Contact
-        </button>
-      </article>
-
-      <!-- 3 months -->
-      <article class="shop-card">
-        <h4 style="font-size:1.1rem;">IzenBlox – 3 Months of IzenEnergy</h4>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
-          3 months of IzenEnergy<br>
-          <strong>£1.00</strong>
-        </p>
-        <button class="btn open-purchase" data-product="IzenEnergy – 3 Months (£1)">
-          Purchase / Contact
-        </button>
-      </article>
-
-      <!-- Annual -->
-      <article class="shop-card">
-        <h4 style="font-size:1.1rem;">IzenBlox – Annual IzenEnergy</h4>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
-          12 months of IzenEnergy<br>
-          <strong>£3.50</strong>
-        </p>
-        <button class="btn open-purchase" data-product="IzenEnergy – Annual (£3.50)">
-          Purchase / Contact
-        </button>
-      </article>
-    </div>
-
-    <!-- DISCORD SERVERS SECTION -->
-    <h3 style="margin-top:3rem;margin-bottom:0.6rem;">Discord Servers – Built for You</h3>
-    <p style="font-size:0.9rem;color:var(--muted);">
-      I’ll build a Discord server for your community based on your needs. Prices are in GBP and handled manually.
-    </p>
-
-    <div class="shop-grid" style="margin-top:1.2rem;">
-      <!-- Small server -->
-      <article class="shop-card">
-        <h4 style="font-size:1.1rem;">Small Server</h4>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
-          A compact server for small friend groups or starter communities.<br>
-          <strong>£1.00</strong>
-        </p>
-        <button class="btn open-purchase" data-product="Discord Server – Small (£1)">
-          Purchase / Contact
-        </button>
-      </article>
-
-      <!-- Advanced server -->
-      <article class="shop-card">
-        <h4 style="font-size:1.1rem;">Advanced Server</h4>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
-          More channels, roles, permissions, and structure. Good for public servers.<br>
-          <strong>£5.00</strong>
-        </p>
-        <button class="btn open-purchase" data-product="Discord Server – Advanced (£5)">
-          Purchase / Contact
-        </button>
-      </article>
-
-      <!-- Triple A server -->
-      <article class="shop-card">
-        <h4 style="font-size:1.1rem;">Triple A Server</h4>
-        <p style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem;">
-          Full, polished, high-end server with advanced setups, bots & structure.<br>
-          <strong>£10.00</strong>
-        </p>
-        <button class="btn open-purchase" data-product="Discord Server – Triple A (£10)">
-          Purchase / Contact
-        </button>
-      </article>
-    </div>
-
-    <p style="font-size:0.85rem;color:var(--muted);margin-top:1.5rem;">
-      <strong>Note:</strong> Payments are not processed through this site yet. Everything is done via Discord and manual agreement.
-      I know this isn’t convenient – I’m sorry about that. To make up for it, you can claim a free purple avatar decoration glow
-      in the Community tab.
-    </p>
-  </section>
-
-  <!-- =========================================
-       SUPPORT / TICKETS
-       (copied + simplified from your existing version)
-       ========================================= -->
-  <section id="support">
-    <h2 class="section-title">Support & Tickets</h2>
-    <p class="section-subtitle">
-      Need help, want to report a bug, or have feedback about any IzenBlox game or system?
-      Use this form to open a ticket. Tickets are stored locally on your browser.
-    </p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem;margin-top:2rem;">
-      <!-- USER FORM -->
-      <div style="padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);">
-        <h3>Open a Ticket</h3>
-        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:0.8rem;">
-          I’ll read these when I can. Use Discord if it’s urgent.
-        </p>
-
-        <div style="display:flex;flex-direction:column;gap:0.7rem;">
-          <div>
-            <label>Your name / username</label>
-            <input id="ticketName" type="text" placeholder="e.g. CharlesXRA"
-                   style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-          </div>
-          <div>
-            <label>Contact (Discord / Roblox / Email)</label>
-            <input id="ticketContact" type="text" placeholder="e.g. mcgc0787 / your Roblox user"
-                   style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-          </div>
-          <div>
-            <label>Subject</label>
-            <input id="ticketSubject" type="text" placeholder="Short summary"
-                   style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-          </div>
-          <div>
-            <label>Message</label>
-            <textarea id="ticketMessage" placeholder="Explain the issue, bug, idea, or feedback..."
-                      style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;height:90px;"></textarea>
-          </div>
-        </div>
-
-        <button id="submitTicketBtn" class="btn" style="margin-top:0.8rem;">
-          Submit Ticket
-        </button>
-
-        <p id="ticketStatus" style="font-size:0.85rem;margin-top:0.5rem;"></p>
-      </div>
-
-      <!-- OWNER PANEL (FRONT-END ONLY) -->
-      <div style="padding:1.2rem;border-radius:16px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);">
-        <h3>Owner Ticket Panel (Local Demo)</h3>
-        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.7rem;">
-          This panel is only secure on your own device. For real protection, a backend would be needed.
-        </p>
-
-        <div id="ticketLoginArea">
-          <label>Owner password</label>
-          <input id="ticketOwnerPassword" type="password" placeholder="Enter password"
-                 style="width:100%;padding:0.5rem;border-radius:10px;background:#111;border:1px solid #333;color:white;">
-          <button id="ticketLoginBtn" class="btn" style="margin-top:0.6rem;background:#4b5563;">
-            Unlock Ticket Panel
-          </button>
-          <p id="ticketLoginStatus" style="font-size:0.8rem;margin-top:0.4rem;color:#fca5a5;"></p>
-        </div>
-
-        <div id="ticketAdminPanel" style="display:none;margin-top:1rem;">
-          <button id="refreshTicketsBtn" class="btn" style="background:#4b5563;margin-bottom:0.6rem;">
-            Refresh Tickets
-          </button>
-          <div id="ticketsList" style="max-height:260px;overflow:auto;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.5rem;font-size:0.85rem;"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================
-       PURCHASE MODAL (USED BY SHOP)
-       ========================================= -->
-  <div id="purchaseModalBg" class="modal-bg">
-    <div class="modal" id="purchaseModal">
-      <h3 id="purchaseTitle">Purchase</h3>
-      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:0.8rem;">
-        Purchases are not handled automatically on this site yet.
-        I’m sorry – I know that’s not convenient.
-      </p>
-
-      <p style="font-size:0.9rem;color:var(--muted);">
-        To buy this item or service, please contact me on Discord:
-      </p>
-      <p style="margin-top:0.3rem;font-weight:600;">
-        Discord: <span style="color:#a5b4fc;">mcgc0787</span>
-      </p>
-
-      <p style="font-size:0.85rem;color:var(--muted);margin-top:0.8rem;">
-        You can also open a support ticket on this website and mention which product you’d like.
-      </p>
-
-      <p style="font-size:0.85rem;color:var(--muted);margin-top:0.8rem;">
-        As a “sorry this isn’t fully automated yet” bonus, you can claim
-        a <strong>free purple avatar glow decoration</strong> in the Community tab.
-      </p>
-
-      <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1.2rem;">
-        <button id="purchaseOpenTicketBtn" class="btn" style="background:#4b5563;">
-          Open Ticket
-        </button>
-        <button id="purchaseCloseBtn" class="btn" style="background:#1f2937;">
-          Close
-        </button>
+      <div class="card">
+        <h2>🔗 Discord Link-up</h2>
+        <small>Izenblox account → Discord perks.</small><br><br>
+        <p>When the Discord launches, verified Izenblox users will get instant access to exclusive roles, private
+        channels and queue priority for custom game nights.</p>
+        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80" alt="">
       </div>
     </div>
   </div>
-  <!-- =========================================
-       SCRIPTS
-       ========================================= -->
-  <script>
-    // ===============================
-    // CONSTANTS & STORAGE HELPERS
-    // ===============================
-    const COMMUNITY_PROFILE_KEY = "izenblox_profile";
-    const COMMUNITY_POSTS_KEY = "izenblox_posts";
-    const TICKETS_KEY = "izenblox_tickets";
-    const OWNER_PASSWORD = "IzenOwner123!"; // change if you want
-
-    function saveToStorage(key, value) {
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function loadFromStorage(key, fallback) {
-      try {
-        const raw = localStorage.getItem(key);
-        if (!raw) return fallback;
-        return JSON.parse(raw);
-      } catch (e) {
-        console.error("Storage parse error for", key, e);
-        return fallback;
-      }
-    }
-
-    // ===============================
-    // SIMPLE ESCAPE HELPER
-    // ===============================
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    // ===============================
-    // COMMUNITY: PROFILE + POSTS
-    // ===============================
-    document.addEventListener("DOMContentLoaded", () => {
-      const connectGoogleBtn = document.getElementById("connectGoogleBtn");
-      const profileSetup = document.getElementById("profileSetup");
-      const profileDisplay = document.getElementById("profileDisplay");
-      const profileCard = document.getElementById("profileCard");
-      const saveProfileBtn = document.getElementById("saveProfileBtn");
-      const postCreator = document.getElementById("postCreator");
-      const submitPostBtn = document.getElementById("submitPostBtn");
-      const communityFeed = document.getElementById("communityFeed");
-
-      let selectedDecoration = "purple-glow";
-      let currentProfile = loadFromStorage(COMMUNITY_PROFILE_KEY, null);
-      let posts = loadFromStorage(COMMUNITY_POSTS_KEY, []);
-
-      // Determine if profile is "owner" (for extra styling)
-      function isOwnerProfile(profile) {
-        if (!profile || !profile.username) return false;
-        const name = profile.username.toLowerCase();
-        // You can customize this condition if you want
-        return name.includes("izen") || name.includes("owner");
-      }
-
-      // DEMO "CONNECT GOOGLE" – just reveals profile setup
-      if (connectGoogleBtn) {
-        connectGoogleBtn.addEventListener("click", () => {
-          if (profileSetup) profileSetup.style.display = "block";
-          connectGoogleBtn.textContent = "Connected (Demo)";
-        });
-      }
-
-      // DECORATION CLICK HANDLERS
-      const decoElements = document.querySelectorAll(".avatar-decoration[data-deco]");
-      decoElements.forEach(el => {
-        el.addEventListener("click", () => {
-          const deco = el.getAttribute("data-deco");
-          if (!deco) return;
-          selectedDecoration = deco;
-
-          // Visual feedback (border highlight)
-          decoElements.forEach(d => {
-            d.style.outline = "none";
-          });
-          el.style.outline = "2px solid #a855f7";
-        });
-      });
-
-      // RENDER PROFILE CARD
-      function renderProfile(profile) {
-        if (!profileDisplay || !profileCard) return;
-        if (!profile) {
-          profileDisplay.style.display = "none";
-          return;
-        }
-
-        profileDisplay.style.display = "block";
-        profileCard.innerHTML = "";
-
-        const wrapper = document.createElement("div");
-        wrapper.style.display = "flex";
-        wrapper.style.alignItems = "center";
-        wrapper.style.gap = "1rem";
-
-        const avatarWrap = document.createElement("div");
-        avatarWrap.className = "avatar-decoration";
-
-        // decoration
-        if (profile.decoration === "purple-glow") {
-          avatarWrap.classList.add("purple-glow");
-        }
-
-        const img = document.createElement("img");
-        img.style.width = "72px";
-        img.style.height = "72px";
-        img.style.borderRadius = "50%";
-        img.src = profile.avatarUrl || "https://i.imgur.com/6VBx3io.png";
-        img.alt = "Avatar";
-        avatarWrap.appendChild(img);
-
-        const info = document.createElement("div");
-
-        const nameEl = document.createElement("div");
-        if (profile.isOwner) {
-          nameEl.className = "owner-name";
-        }
-        nameEl.textContent = profile.username || "Unnamed IzenBlox user";
-
-        const pronounsEl = document.createElement("div");
-        pronounsEl.style.fontSize = "0.85rem";
-        pronounsEl.style.color = "var(--muted)";
-        pronounsEl.textContent = profile.pronouns || "";
-
-        const bioEl = document.createElement("div");
-        bioEl.style.fontSize = "0.86rem";
-        bioEl.style.color = "var(--muted)";
-        bioEl.style.marginTop = "0.35rem";
-        bioEl.textContent = profile.bio || "";
-
-        const chips = document.createElement("div");
-        chips.style.display = "flex";
-        chips.style.flexWrap = "wrap";
-        chips.style.gap = "0.35rem";
-        chips.style.marginTop = "0.35rem";
-
-        function addChipsFromStr(str, labelPrefix) {
-          if (!str) return;
-          str.split(",").forEach(part => {
-            const t = part.trim();
-            if (!t) return;
-            const chip = document.createElement("span");
-            chip.style.fontSize = "0.78rem";
-            chip.style.padding = "0.18rem 0.6rem";
-            chip.style.borderRadius = "999px";
-            chip.style.border = "1px solid rgba(255,255,255,0.2)";
-            chip.style.background = "rgba(0,0,0,0.4)";
-            chip.textContent = labelPrefix ? `${labelPrefix} ${t}` : t;
-            chips.appendChild(chip);
-          });
-        }
-
-        addChipsFromStr(profile.interests, "");
-        addChipsFromStr(profile.games, "Fav:");
-
-        info.appendChild(nameEl);
-        info.appendChild(pronounsEl);
-        info.appendChild(bioEl);
-        info.appendChild(chips);
-
-        // Owner block frame wrapper
-        if (profile.isOwner) {
-          const framed = document.createElement("div");
-          framed.className = "owner-frame";
-          framed.style.display = "inline-block";
-          framed.appendChild(avatarWrap);
-          wrapper.appendChild(framed);
-        } else {
-          wrapper.appendChild(avatarWrap);
-        }
-
-        wrapper.appendChild(info);
-        profileCard.appendChild(wrapper);
-      }
-
-      // RENDER FEED
-      function renderFeed() {
-        if (!communityFeed) return;
-        if (!Array.isArray(posts) || posts.length === 0) {
-          communityFeed.innerHTML =
-            '<p style="font-size:0.9rem;color:var(--muted);margin-top:1rem;">No posts yet. Be the first to post something!</p>';
-          return;
-        }
-
-        communityFeed.innerHTML = "";
-        posts.forEach(post => {
-          const card = document.createElement("article");
-          card.className = "post-card";
-
-          const header = document.createElement("div");
-          header.style.display = "flex";
-          header.style.alignItems = "center";
-          header.style.gap = "0.7rem";
-
-          const avatarWrap = document.createElement("div");
-          avatarWrap.style.width = "40px";
-          avatarWrap.style.height = "40px";
-          avatarWrap.style.borderRadius = "999px";
-          avatarWrap.style.overflow = "hidden";
-          avatarWrap.style.background = "#111";
-
-          const img = document.createElement("img");
-          img.src =
-            (post.profile && post.profile.avatarUrl) ||
-            "https://i.imgur.com/6VBx3io.png";
-          img.alt = "Avatar";
-          img.style.width = "100%";
-          img.style.height = "100%";
-          img.style.objectFit = "cover";
-          avatarWrap.appendChild(img);
-
-          const meta = document.createElement("div");
-          const nameEl = document.createElement("div");
-          nameEl.style.fontSize = "0.88rem";
-          nameEl.style.fontWeight = "600";
-          if (post.profile && post.profile.isOwner) {
-            nameEl.className = "owner-name";
-          }
-          nameEl.textContent =
-            (post.profile && post.profile.username) ||
-            "IzenBlox user";
-
-          const sub = document.createElement("div");
-          sub.style.fontSize = "0.78rem";
-          sub.style.color = "var(--muted)";
-          const dateStr = new Date(post.createdAt).toLocaleString();
-          const pronouns = (post.profile && post.profile.pronouns) || "";
-          sub.textContent = pronouns ? `${pronouns} • ${dateStr}` : dateStr;
-
-          meta.appendChild(nameEl);
-          meta.appendChild(sub);
-
-          header.appendChild(avatarWrap);
-          header.appendChild(meta);
-
-          const body = document.createElement("div");
-          body.style.marginTop = "0.5rem";
-          body.style.fontSize = "0.9rem";
-          body.innerHTML = escapeHtml(post.text);
-
-          card.appendChild(header);
-          card.appendChild(body);
-
-          if (post.imageUrl) {
-            const imgWrap = document.createElement("div");
-            imgWrap.style.marginTop = "0.6rem";
-            imgWrap.style.borderRadius = "12px";
-            imgWrap.style.overflow = "hidden";
-            imgWrap.style.border = "1px solid rgba(255,255,255,0.1)";
-            const pimg = document.createElement("img");
-            pimg.src = post.imageUrl;
-            pimg.alt = "Post image";
-            pimg.style.width = "100%";
-            pimg.style.display = "block";
-            imgWrap.appendChild(pimg);
-            card.appendChild(imgWrap);
-          }
-
-          // Small footer with delete (owner only)
-          const footer = document.createElement("div");
-          footer.style.marginTop = "0.5rem";
-          footer.style.display = "flex";
-          footer.style.justifyContent = "space-between";
-          footer.style.alignItems = "center";
-          footer.style.fontSize = "0.78rem";
-          footer.style.color = "var(--muted)";
-
-          footer.textContent = "IzenBlox community post";
-
-          if (currentProfile && currentProfile.isOwner) {
-            const delBtn = document.createElement("button");
-            delBtn.textContent = "Delete";
-            delBtn.style.background = "transparent";
-            delBtn.style.border = "1px solid rgba(248,113,113,0.8)";
-            delBtn.style.color = "#fecaca";
-            delBtn.style.borderRadius = "999px";
-            delBtn.style.padding = "0.1rem 0.5rem";
-            delBtn.style.cursor = "pointer";
-            delBtn.style.fontSize = "0.75rem";
-            delBtn.addEventListener("click", () => {
-              posts = posts.filter(p => p.id !== post.id);
-              saveToStorage(COMMUNITY_POSTS_KEY, posts);
-              renderFeed();
-            });
-            footer.appendChild(delBtn);
-          }
-
-          card.appendChild(footer);
-          communityFeed.appendChild(card);
-        });
-      }
-
-      // LOAD EXISTING PROFILE IF FOUND
-      if (currentProfile) {
-        renderProfile(currentProfile);
-        if (postCreator) postCreator.style.display = "block";
-        if (profileSetup) profileSetup.style.display = "none";
-        if (connectGoogleBtn) connectGoogleBtn.textContent = "Connected (Demo)";
-      }
-
-      // LOAD POSTS
-      renderFeed();
-
-      // SAVE PROFILE BUTTON
-      if (saveProfileBtn) {
-        saveProfileBtn.addEventListener("click", () => {
-          const usernameEl = document.getElementById("profUsername");
-          const pronounsEl = document.getElementById("profPronouns");
-          const avatarEl = document.getElementById("profAvatar");
-          const bioEl = document.getElementById("profBio");
-          const interestsEl = document.getElementById("profInterests");
-          const gamesEl = document.getElementById("profGames");
-
-          const username = usernameEl.value.trim();
-          if (!username) {
-            alert("Please enter a username.");
-            return;
-          }
-
-          const newProfile = {
-            username,
-            pronouns: pronounsEl.value.trim(),
-            avatarUrl: avatarEl.value.trim(),
-            bio: bioEl.value.trim(),
-            interests: interestsEl.value.trim(),
-            games: gamesEl.value.trim(),
-            decoration: selectedDecoration,
-          };
-          newProfile.isOwner = isOwnerProfile(newProfile);
-
-          currentProfile = newProfile;
-          saveToStorage(COMMUNITY_PROFILE_KEY, newProfile);
-          renderProfile(newProfile);
-
-          if (postCreator) postCreator.style.display = "block";
-          alert("Profile saved.");
-        });
-      }
-
-      // SUBMIT POST BUTTON
-      if (submitPostBtn) {
-        submitPostBtn.addEventListener("click", () => {
-          if (!currentProfile) {
-            alert("Create your profile first.");
-            return;
-          }
-
-          const textEl = document.getElementById("postText");
-          const imgEl = document.getElementById("postImage");
-          const text = textEl.value.trim();
-          const imgUrl = imgEl.value.trim();
-
-          if (!text) {
-            alert("Write something to post.");
-            return;
-          }
-
-          const newPost = {
-            id: "post_" + Date.now() + "_" + Math.random().toString(16).slice(2),
-            text,
-            imageUrl: imgUrl || "",
-            profile: currentProfile,
-            createdAt: Date.now()
-          };
-
-          posts.unshift(newPost);
-          saveToStorage(COMMUNITY_POSTS_KEY, posts);
-          renderFeed();
-
-          textEl.value = "";
-          imgEl.value = "";
-        });
-      }
-      // ===============================
-      // TICKETS: USER + OWNER PANEL
-      // ===============================
-      const ticketNameEl = document.getElementById("ticketName");
-      const ticketContactEl = document.getElementById("ticketContact");
-      const ticketSubjectEl = document.getElementById("ticketSubject");
-      const ticketMessageEl = document.getElementById("ticketMessage");
-      const submitTicketBtn = document.getElementById("submitTicketBtn");
-      const ticketStatusEl = document.getElementById("ticketStatus");
-
-      const ticketLoginArea = document.getElementById("ticketLoginArea");
-      const ticketOwnerPasswordEl = document.getElementById("ticketOwnerPassword");
-      const ticketLoginBtn = document.getElementById("ticketLoginBtn");
-      const ticketLoginStatusEl = document.getElementById("ticketLoginStatus");
-      const ticketAdminPanel = document.getElementById("ticketAdminPanel");
-      const refreshTicketsBtn = document.getElementById("refreshTicketsBtn");
-      const ticketsList = document.getElementById("ticketsList");
-
-      let tickets = loadFromStorage(TICKETS_KEY, []);
-
-      function renderTickets() {
-        if (!ticketsList) return;
-        if (!tickets || tickets.length === 0) {
-          ticketsList.innerHTML = '<p style="font-size:0.85rem;color:var(--muted);padding:0.3rem;">No tickets yet.</p>';
-          return;
-        }
-
-        ticketsList.innerHTML = "";
-        tickets
-          .slice()
-          .sort((a,b) => b.createdAt - a.createdAt)
-          .forEach(ticket => {
-            const wrapper = document.createElement("div");
-            wrapper.style.borderBottom = "1px solid rgba(255,255,255,0.07)";
-            wrapper.style.padding = "0.4rem 0.2rem";
-
-            const title = document.createElement("div");
-            title.style.fontSize = "0.88rem";
-            title.style.fontWeight = "600";
-            title.textContent = ticket.subject;
-
-            const meta = document.createElement("div");
-            meta.style.fontSize = "0.78rem";
-            meta.style.color = "var(--muted)";
-            const d = new Date(ticket.createdAt).toLocaleString();
-            meta.textContent = `${ticket.name} • ${ticket.contact} • ${d}`;
-
-            const msg = document.createElement("div");
-            msg.style.fontSize = "0.85rem";
-            msg.style.marginTop = "0.2rem";
-            msg.textContent = ticket.message;
-
-            const actions = document.createElement("div");
-            actions.style.marginTop = "0.3rem";
-            actions.style.display = "flex";
-            actions.style.gap = "0.4rem";
-
-            const replyBtn = document.createElement("button");
-            replyBtn.textContent = "Reply (note)";
-            replyBtn.style.borderRadius = "999px";
-            replyBtn.style.border = "1px solid rgba(96,165,250,0.8)";
-            replyBtn.style.background = "transparent";
-            replyBtn.style.color = "#bfdbfe";
-            replyBtn.style.fontSize = "0.75rem";
-            replyBtn.style.cursor = "pointer";
-            replyBtn.style.padding = "0.1rem 0.5rem";
-            replyBtn.addEventListener("click", () => {
-              const r = prompt("Enter a reply note (local only, for your reference):");
-              if (!r) return;
-              ticket.reply = r;
-              saveToStorage(TICKETS_KEY, tickets);
-              renderTickets();
-            });
-
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.style.borderRadius = "999px";
-            deleteBtn.style.border = "1px solid rgba(248,113,113,0.8)";
-            deleteBtn.style.background = "transparent";
-            deleteBtn.style.color = "#fecaca";
-            deleteBtn.style.fontSize = "0.75rem";
-            deleteBtn.style.cursor = "pointer";
-            deleteBtn.style.padding = "0.1rem 0.5rem";
-            deleteBtn.addEventListener("click", () => {
-              if (!confirm("Delete this ticket?")) return;
-              tickets = tickets.filter(t => t.id !== ticket.id);
-              saveToStorage(TICKETS_KEY, tickets);
-              renderTickets();
-            });
-
-            actions.appendChild(replyBtn);
-            actions.appendChild(deleteBtn);
-
-            if (ticket.reply) {
-              const replyNote = document.createElement("div");
-              replyNote.style.fontSize = "0.78rem";
-              replyNote.style.color = "#a5b4fc";
-              replyNote.style.marginTop = "0.25rem";
-              replyNote.textContent = "Reply note: " + ticket.reply;
-              wrapper.appendChild(replyNote);
-            }
-
-            wrapper.appendChild(title);
-            wrapper.appendChild(meta);
-            wrapper.appendChild(msg);
-            wrapper.appendChild(actions);
-            ticketsList.appendChild(wrapper);
-          });
-      }
-
-      if (submitTicketBtn) {
-        submitTicketBtn.addEventListener("click", () => {
-          const name = ticketNameEl.value.trim();
-          const contact = ticketContactEl.value.trim();
-          const subject = ticketSubjectEl.value.trim();
-          const message = ticketMessageEl.value.trim();
-
-          if (!name || !contact || !subject || !message) {
-            ticketStatusEl.textContent = "Please fill in all fields.";
-            ticketStatusEl.style.color = "#fca5a5";
-            return;
-          }
-
-          const newTicket = {
-            id: "ticket_" + Date.now() + "_" + Math.random().toString(16).slice(2),
-            name,
-            contact,
-            subject,
-            message,
-            createdAt: Date.now(),
-            reply: ""
-          };
-
-          tickets.push(newTicket);
-          saveToStorage(TICKETS_KEY, tickets);
-
-          ticketStatusEl.textContent = "Ticket submitted. Thank you.";
-          ticketStatusEl.style.color = "#bbf7d0";
-
-          ticketNameEl.value = "";
-          ticketContactEl.value = "";
-          ticketSubjectEl.value = "";
-          ticketMessageEl.value = "";
-
-          setTimeout(() => {
-            ticketStatusEl.textContent = "";
-          }, 3000);
-        });
-      }
-
-      if (ticketLoginBtn) {
-        ticketLoginBtn.addEventListener("click", () => {
-          const pw = ticketOwnerPasswordEl.value;
-          if (pw === OWNER_PASSWORD) {
-            ticketLoginStatusEl.textContent = "";
-            ticketLoginArea.style.display = "none";
-            ticketAdminPanel.style.display = "block";
-            renderTickets();
-          } else {
-            ticketLoginStatusEl.textContent = "Incorrect password.";
-          }
-        });
-      }
-
-      if (refreshTicketsBtn) {
-        refreshTicketsBtn.addEventListener("click", () => {
-          tickets = loadFromStorage(TICKETS_KEY, []);
-          renderTickets();
-        });
-      }
-
-      // ===============================
-      // SHOP: PURCHASE MODAL
-      // ===============================
-      const purchaseModalBg = document.getElementById("purchaseModalBg");
-      const purchaseTitleEl = document.getElementById("purchaseTitle");
-      const purchaseCloseBtn = document.getElementById("purchaseCloseBtn");
-      const purchaseOpenTicketBtn = document.getElementById("purchaseOpenTicketBtn");
-      const openPurchaseButtons = document.querySelectorAll(".open-purchase");
-
-      openPurchaseButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const product = btn.getAttribute("data-product") || "Purchase";
-          if (purchaseTitleEl) {
-            purchaseTitleEl.textContent = product;
-          }
-          if (purchaseModalBg) {
-            purchaseModalBg.style.display = "flex";
-          }
-        });
-      });
-
-      if (purchaseCloseBtn) {
-        purchaseCloseBtn.addEventListener("click", () => {
-          if (purchaseModalBg) purchaseModalBg.style.display = "none";
-        });
-      }
-
-      if (purchaseOpenTicketBtn) {
-        purchaseOpenTicketBtn.addEventListener("click", () => {
-          if (purchaseModalBg) purchaseModalBg.style.display = "none";
-          // Scroll to support section
-          const supportSection = document.getElementById("support");
-          if (supportSection) {
-            supportSection.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      }
-
-      // Close modal on bg click
-      if (purchaseModalBg) {
-        purchaseModalBg.addEventListener("click", (e) => {
-          if (e.target === purchaseModalBg) {
-            purchaseModalBg.style.display = "none";
-          }
-        });
-      }
-
-      // ===============================
-      // FOOTER YEAR (if you want a footer)
-      // ===============================
-      // You can add a footer at the bottom if desired.
-
-    }); // END DOMContentLoaded
-  </script>
+
+  <div class="section">
+    <h2 style="margin-bottom:10px;">Izenblox roadmap (short version)</h2>
+    <p style="font-size:13px;margin-bottom:12px;">
+      We’re starting with profiles + community wall. Next waves are <strong>friends system</strong>, basic
+      <strong>ranked titles</strong>, cosmetic shop and Discord integration.
+    </p>
+    <ul style="font-size:13px;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+      <li>◆ Phase 1 – Profiles, wall, DMs (what you’re using now)</li>
+      <li>◆ Phase 2 – Friends, status badges, activity pings</li>
+      <li>◆ Phase 3 – IzenEnergy currency & cosmetic shop</li>
+      <li>◆ Phase 4 – Discord link, in-game rewards & cross-sync</li>
+    </ul>
+  </div>
+</div>
+
+<!-- AUTH PAGE -->
+<div class="page" id="auth">
+  <div class="section">
+    <h2 style="margin-bottom:18px;">Sign in or create your Izenblox account</h2>
+    <div class="auth-grid">
+      <!-- Register -->
+      <div>
+        <div class="auth-title">Create account</div>
+        <input id="regUsername" placeholder="Username">
+        <input id="regPassword" type="password" placeholder="Password">
+        <input id="regPronouns" placeholder="Pronouns (optional)">
+        <select id="regFont">
+          <option value="Orbitron">Orbitron – Futuristic</option>
+          <option value="Montserrat">Montserrat – Clean</option>
+          <option value="Press Start 2P">Pixel – Retro</option>
+        </select>
+        <textarea id="regBio" placeholder="Short bio"></textarea>
+        <div style="margin-top:6px;font-size:12px;">Choose a preset avatar</div>
+        <div class="avatars">
+          <img src="https://i.imgur.com/2yaf2wb.png" onclick="selectAvatar(this.src)">
+          <img src="https://i.imgur.com/Y4Qz5WY.png" onclick="selectAvatar(this.src)">
+          <img src="https://i.imgur.com/ynQ8KxA.png" onclick="selectAvatar(this.src)">
+        </div>
+        <div style="margin-top:8px;font-size:12px;">…or upload your own</div>
+        <input type="file" id="avatarUpload" accept="image/*">
+        <img id="avatarPreview" alt="Avatar preview">
+        <button class="btn-primary" style="margin-top:14px;" onclick="register()">Create account</button>
+      </div>
+
+      <!-- Login -->
+      <div>
+        <div class="auth-title">Sign in</div>
+        <input id="loginUsername" placeholder="Username">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <button class="btn-primary" style="margin-top:6px;" onclick="login()">Sign in</button>
+        <p style="font-size:12px;margin-top:14px;color:#ccc;">
+          Accounts are stored in this browser for now (no email required). When backend hosting is added, these
+          profiles can sync to the cloud.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY PAGE -->
+<div class="page" id="community">
+  <div class="section">
+    <h2 style="margin-bottom:12px;">Community wall</h2>
+    <p style="font-size:13px;margin-bottom:16px;">
+      Everyone sees the same wall from this device. Use <span style="color:#ff9ee5">@username</span> to mention people.
+      You need to be signed in to post.
+    </p>
+
+    <div class="community-layout">
+      <!-- CHAT COLUMN -->
+      <div class="chat-box">
+        <div id="chatFeed"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" placeholder="Share something with the community…">
+          <button onclick="createPost()">Post</button>
+        </div>
+      </div>
+
+      <!-- PROFILE / DM COLUMN -->
+      <div class="profile-panel">
+        <div id="profileArea">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="dm-section">
+          <div style="font-weight:600;margin-bottom:6px;">Quick DM (local)</div>
+          <select id="dmTarget"></select>
+          <textarea id="dmText" placeholder="Send a short DM…"></textarea>
+          <button class="btn-primary" style="margin-top:4px;font-size:11px;padding:6px 10px;" onclick="sendDM()">Send DM</button>
+          <div class="dm-list" id="dmList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP PAGE -->
+<div class="page" id="shop">
+  <div class="section">
+    <h2 style="margin-bottom:16px;">Izenblox shop (concept)</h2>
+    <p style="font-size:13px;margin-bottom:16px;">
+      These are draft products for when payments are wired up. For now they’re just UI – clicking “Purchase” will show
+      mock contact info.
+    </p>
+    <div class="shop-grid">
+      <div class="shop-card">
+        <h3>IzenEnergy – 1 month</h3>
+        <p>+30-day free trial for new members. Boosts your profile with glow themes and early access tags.</p>
+        <div class="price">£0.99</div>
+        <button onclick="mockPurchase('1 month of IzenEnergy')">Purchase</button>
+      </div>
+      <div class="shop-card">
+        <h3>IzenEnergy – 3 months</h3>
+        <p>Best value for new grinders. Includes seasonal profile borders and beta queue priority.</p>
+        <div class="price">£1.00</div>
+        <button onclick="mockPurchase('3 months of IzenEnergy')">Purchase</button>
+      </div>
+      <div class="shop-card">
+        <h3>IzenEnergy – 12 months</h3>
+        <p>Lock in a full year of perks, Discord role upgrades and exclusive cosmetics once they launch.</p>
+        <div class="price">£3.50</div>
+        <button onclick="mockPurchase('12 months of IzenEnergy')">Purchase</button>
+      </div>
+      <div class="shop-card">
+        <h3>Custom Discord server build</h3>
+        <p>We’ll design, structure and theme a Discord server for your own community.</p>
+        <ul style="margin-left:14px;margin-top:6px;font-size:12px;">
+          <li>Small starter server – £1</li>
+          <li>Advanced layered server – £5</li>
+          <li>“Triple A” pro-grade server – £10</li>
+        </ul>
+        <button onclick="mockPurchase('Custom Discord server build')">Get contact details</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="about">
+  <div class="section">
+    <h2 style="margin-bottom:14px;">About Izenblox</h2>
+    <p style="font-size:13px;margin-bottom:10px;">
+      Izenblox is a fan-driven hub focused on Roblox games with darker, more cinematic “Ink” energy – neon lighting,
+      high-tension rounds and story-driven experiences.
+    </p>
+    <p style="font-size:13px;margin-bottom:10px;">
+      This site is currently running as a <strong>static prototype</strong>: accounts, posts and DMs are stored inside
+      your browser using <code>localStorage</code>. When the backend is wired up (for example using Firebase or a
+      Netlify function API), profiles will sync across devices.
+    </p>
+    <p style="font-size:13px;">
+      Roadmap features include:
+    </p>
+    <ul style="font-size:13px;margin-left:18px;margin-top:8px;">
+      <li>Cloud-synced login system</li>
+      <li>Friends & party system for queuing into games together</li>
+      <li>Achievement titles that show in-game and on profile</li>
+      <li>Discord bot to link your Izenblox account and give roles automatically</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  Izenblox prototype UI – hosted by you. Data is local to your browser for now.
+</footer>
+
+<script>
+/* ====== BASIC STATE ====== */
+let users = JSON.parse(localStorage.getItem("izen_users") || "[]");
+let posts = JSON.parse(localStorage.getItem("izen_posts") || "[]");
+let dms   = JSON.parse(localStorage.getItem("izen_dms")   || "[]"); // {from,to,text,time}
+let currentUsername = localStorage.getItem("izen_current_username") || null;
+let currentUser = currentUsername ? users.find(u => u.username === currentUsername) || null : null;
+let selectedAvatar = "";
+
+/* ====== HELPERS ====== */
+function saveUsers(){ localStorage.setItem("izen_users", JSON.stringify(users)); }
+function savePosts(){ localStorage.setItem("izen_posts", JSON.stringify(posts)); }
+function saveDMs(){ localStorage.setItem("izen_dms", JSON.stringify(dms)); }
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id === "community"){ renderChat(); renderProfileSide(); }
+}
+
+function updateNav(){
+  const navUser = document.getElementById("navUser");
+  const navBtn  = document.getElementById("navAuthBtn");
+  if(currentUser){
+    navUser.textContent = currentUser.username + " ✓";
+    navBtn.textContent = "Logout";
+    navBtn.onclick = logout;
+  }else{
+    navUser.textContent = "Guest";
+    navBtn.textContent = "Sign In";
+    navBtn.onclick = () => showPage("auth");
+  }
+}
+
+/* ====== AVATAR SELECTION ====== */
+function selectAvatar(src){
+  selectedAvatar = src;
+  document.getElementById("avatarPreview").src = src;
+}
+document.getElementById("avatarUpload").addEventListener("change", e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    selectedAvatar = reader.result;
+    document.getElementById("avatarPreview").src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+/* ====== AUTH ====== */
+function register(){
+  const username = document.getElementById("regUsername").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const pronouns = document.getElementById("regPronouns").value.trim();
+  const bio      = document.getElementById("regBio").value.trim();
+  const font     = document.getElementById("regFont").value;
+
+  if(!username || !password || !selectedAvatar){
+    alert("Please enter username, password and choose an avatar.");
+    return;
+  }
+  if(users.find(u => u.username.toLowerCase() === username.toLowerCase())){
+    alert("That username is already taken.");
+    return;
+  }
+
+  const user = {
+    username,
+    password,
+    pronouns,
+    bio,
+    font,
+    avatar: selectedAvatar,
+    createdAt: new Date().toISOString(),
+    status: "online"
+  };
+  users.push(user);
+  saveUsers();
+  currentUser = user;
+  currentUsername = user.username;
+  localStorage.setItem("izen_current_username", currentUsername);
+  updateNav();
+  alert("Account created. You are now signed in.");
+  showPage("community");
+  renderProfileSide();
+}
+
+function login(){
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const user = users.find(u => u.username === username && u.password === password);
+  if(!user){
+    alert("Wrong username or password.");
+    return;
+  }
+  currentUser = user;
+  currentUsername = user.username;
+  localStorage.setItem("izen_current_username", currentUsername);
+  updateNav();
+  alert("Signed in as " + user.username);
+  showPage("community");
+  renderProfileSide();
+}
+
+function logout(){
+  currentUser = null;
+  currentUsername = null;
+  localStorage.removeItem("izen_current_username");
+  updateNav();
+  renderProfileSide();
+}
+
+/* ====== COMMUNITY WALL ====== */
+function highlightMentions(text){
+  return text.replace(/@([A-Za-z0-9_]+)/g,'<span class="mention">@$1</span>');
+}
+
+function createPost(){
+  if(!currentUser){
+    alert("You need to sign in to post.");
+    showPage("auth");
+    return;
+  }
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if(!text) return;
+  posts.push({
+    id: Date.now(),
+    user: currentUser.username,
+    avatar: currentUser.avatar,
+    text,
+    time: new Date().toLocaleTimeString(),
+    likes: 0
+  });
+  savePosts();
+  input.value = "";
+  renderChat();
+}
+
+function likePost(id){
+  const p = posts.find(x => x.id === id);
+  if(!p) return;
+  p.likes++;
+  savePosts();
+  renderChat();
+}
+
+function replyTo(user){
+  const input = document.getElementById("chatInput");
+  input.value = "@" + user + " " + input.value;
+  input.focus();
+}
+
+function renderChat(){
+  const feed = document.getElementById("chatFeed");
+  feed.innerHTML = "";
+  posts.forEach(p=>{
+    const div = document.createElement("div");
+    div.className = "message";
+    div.innerHTML = `
+      <div class="msg-header">
+        <div class="msg-user">
+          <img src="${p.avatar}" alt="">
+          <div>
+            <div>${p.user}${p.user === currentUsername ? " ✓" : ""}</div>
+            <div class="msg-meta">${p.time}</div>
+          </div>
+        </div>
+        <div class="msg-actions">
+          <span class="like" onclick="likePost(${p.id})">♥ ${p.likes}</span>
+          <span onclick="replyTo('${p.user}')">Reply</span>
+        </div>
+      </div>
+      <div>${highlightMentions(p.text)}</div>
+    `;
+    feed.appendChild(div);
+  });
+  feed.scrollTop = feed.scrollHeight;
+}
+
+/* ====== PROFILE SIDE + DMS ====== */
+function renderProfileSide(){
+  const area = document.getElementById("profileArea");
+  const dmTarget = document.getElementById("dmTarget");
+  const dmList = document.getElementById("dmList");
+
+  dmTarget.innerHTML = "";
+  dmList.innerHTML = "";
+
+  if(!currentUser){
+    area.innerHTML = `
+      <div style="font-size:13px;">
+        You’re browsing as <strong>guest</strong>.<br><br>
+        Create an account to set your profile, post on the wall and send DMs.
+      </div>
+    `;
+    return;
+  }
+
+  area.innerHTML = `
+    <div class="profile-top" style="font-family:${currentUser.font},Orbitron;">
+      <img src="${currentUser.avatar}" alt="">
+      <div>
+        <div class="profile-name">${currentUser.username} ✓</div>
+        <div class="profile-status">
+          <span class="status-dot"></span> online
+        </div>
+        <div style="font-size:11px;margin-top:4px;">${currentUser.pronouns || ""}</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:12px;">${currentUser.bio || "No bio yet."}</div>
+  `;
+
+  // DM target options = all other users
+  const others = users.filter(u=>u.username !== currentUser.username);
+  if(others.length === 0){
+    dmTarget.innerHTML = `<option>No other local users yet</option>`;
+  }else{
+    others.forEach(u=>{
+      const opt = document.createElement("option");
+      opt.value = u.username;
+      opt.textContent = u.username;
+      dmTarget.appendChild(opt);
+    });
+  }
+
+  // Show last 10 DMs involving current user
+  const threads = dms.filter(m => m.from === currentUser.username || m.to === currentUser.username).slice(-10);
+  if(threads.length === 0){
+    dmList.innerHTML = "<div style='font-size:11px;color:#aaa;margin-top:4px;'>No DMs yet.</div>";
+  }else{
+    threads.forEach(m=>{
+      const item = document.createElement("div");
+      item.style.marginBottom = "4px";
+      item.style.fontSize = "11px";
+      const dir = m.from === currentUser.username ? "→" : "←";
+      item.textContent = `${dir} ${m.to === currentUser.username ? m.from : m.to}: ${m.text}`;
+      dmList.appendChild(item);
+    });
+  }
+}
+
+function sendDM(){
+  if(!currentUser){
+    alert("Sign in to send DMs.");
+    return;
+  }
+  const target = document.getElementById("dmTarget").value;
+  const text = document.getElementById("dmText").value.trim();
+  if(!target || !text) return;
+  dms.push({
+    from: currentUser.username,
+    to: target,
+    text,
+    time: new Date().toISOString()
+  });
+  saveDMs();
+  document.getElementById("dmText").value = "";
+  renderProfileSide();
+}
+
+/* ====== SHOP MOCK PURCHASE ====== */
+function mockPurchase(item){
+  alert(
+    "This is a mock purchase for now.\n\n" +
+    "Item: " + item + "\n\n" +
+    "For real orders, contact:\nDiscord: IzenOwner#0001\nEmail: contact@izenblox.dev (placeholder)"
+  );
+}
+
+/* ====== INIT ====== */
+updateNav();
+renderChat();
+renderProfileSide();
+</script>
 
 </body>
 </html>
